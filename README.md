@@ -10,6 +10,8 @@ _ **Người hướng dẫn** : giảng viên Đỗ Tuấn Anh.
 
 _ **Sinh viên thực hiện** : Phan Phú Thành.
 
+_ [**Các tài liệu khác**](https://drive.google.com/open?id=1bVA8XYJ_cDb9mNIbi9VGlNTvnni_0VFJ)
+
 ## Tài liệu tham khảo : 
 
 _ [Machine Learning cơ bản](https://drive.google.com/open?id=0B7ujsutwirjXLXlwcnZUTjVVRXVjd19WNlVmREdac0xFNGIw)
