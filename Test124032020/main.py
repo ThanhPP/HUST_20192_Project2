@@ -6,6 +6,7 @@ import pandas as pd
 import yfinance as yf
 import numpy as np
 from Test124032020 import sample_slopes
+from Test124032020 import support_vector
 
 yf.pdr_override()
 
@@ -29,7 +30,11 @@ print(list(fbHistoryData.columns))
 print()
 """
 
-tickers = ["MSFT", "GOOG", "FB"]
+tickers = ["AAPL", "MSFT", "GOOG", "FB", "INTC", 'TSM',
+           "CSCO", "ORCL", "NVDA", "SAP", "IBM", "ADBE",
+           "TXN", "AVGO", "CRM", "QCOM", "MU", "BIDU",
+           "ADP", "VMW", "ATVI", "AMAT", "INTU",
+           "CTSH", "EA", "NXPI", "INFY", "ADI", "NOK"]
 # set the time frame to fetch stock data
 start = dt.datetime(2013, 10, 1)
 end = dt.datetime(2017, 4, 14)
@@ -77,12 +82,12 @@ class Ticker_Data:
     return df
     """
 
-    def feature_and_targets(X, Y):
-        with open('files/testing_files/all_feature.txt', 'w') as file_name:
-            for feature in X:
-                file_name.write(str(feature) + ',' + '\r\n')
-            for target in Y:
-                file_name.write(str(feature) + ',' + '\r\n')
+def write_feature_and_targets(X, Y):
+    with open('D:\\go\\src\\github.com\\THANHPP\\HUST_20192_Project2\\Test124032020\\files\\testing_files\\all_feature.txt', 'w') as file_name:
+        for feature in X:
+            file_name.write(str(feature) + ',' + '\r\n')
+        for target in Y:
+            file_name.write(str(feature) + ',' + '\r\n')
 
 
 def main(batch_size, look_ahead):
@@ -120,8 +125,29 @@ def main(batch_size, look_ahead):
 
     columns_with_sample_slopes = sample_slopes.get_columns_with_slope_sum(columns)
 
+    sv = support_vector.Support_Vector([], [])
 
-main(0, 0)
+    for column in columns_with_sample_slopes:
+
+        y_values = sample_slopes.generate_target_value(
+            ticker_data.main_df, batch_size, column.replace('slope_sum',  'CLS'), look_ahead)
+        sv.Y = sv.Y + y_values[0]
+
+        x_values = sample_slopes.create_batch_of_slope(
+            ticker_data.main_df, column, batch_size, y_values[1]
+        )
+        sv.X = sv.X + x_values
+
+    write_feature_and_targets(sv.X, sv.Y)
+
+    print((sv.Y, 'Yvalues'))
+    print(sv.X[-1], ' Xvalues ')
+    print('training the model...')
+
+    sv.train()
+
+
+main(18, 2)
 
 """
 a = TickerData(fbHistoryData)

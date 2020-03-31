@@ -49,3 +49,79 @@ def get_columns_with_slope_sum(columns):
         if column[-9:] == 'slope_sum':
             columns_with_slope_sum.append(column)
     return columns_with_slope_sum
+
+
+def generate_target_value(df, batch_count, column_name, look_ahead):
+    """
+    Takes a df and a batch count to generate the % change values good or bad for each batch
+    """
+    list_of_closes = df[column_name].tolist()
+    i = 0
+    target_values = []
+
+    while i < (len(list_of_closes) - (look_ahead + batch_count) + 1):
+        target_day_index = i + batch_count + look_ahead - 1
+        percent_change = find_percent_change(list_of_closes[target_day_index], list_of_closes[i + batch_count - 1])
+        if percent_change < 0:
+            target_values.append(-1)
+        else:
+            target_values.append(1)
+        i += 1
+
+    number_of_target_values = len(target_values)
+
+    return target_values, number_of_target_values
+
+
+def find_percent_change(new_number, old_number):
+    """
+    percent change of 2 numbers
+    """
+    return (float(new_number) - float(old_number))/float(old_number)
+
+
+def _sliding_windows(sequence, winSize, step = 1):
+    """
+    Returns a generator that will iterate through
+    the defined chunks of input sequence.
+    Input sequence must be iterable.
+    """
+    # compute the number of chunks
+    numOfChunks = ((len(sequence) - winSize)/step) + 1
+
+    for i in range(0, int(numOfChunks) * step, step):
+        yield sequence[i: i + winSize]
+
+
+def create_batch_of_slope(df, column_with_slope_sum, batch_count, cut_length):
+    """
+    Takes a dataframe of closes changes and slopes and create batches of the slopes of the batch_count
+    """
+    list_of_chunks = list(_sliding_windows(
+        df[column_with_slope_sum].tolist(), batch_count
+    ))
+
+    return list_of_chunks[:cut_length]
+
+
+def moving_average(a, n):
+    ret = np.cumsum(a, dtype=float)
+    ret[n:] = ret[n:] - ret[:n]
+    return ret[n-1:] / n
+
+
+def create_batch_of_slopes_moving_av(df, column_with_slope_sum, batch_count, cut_length, moving_window):
+    """
+    Takes a dataframe of closes changes and slopes and creates batches of the slopes of size batch_count
+    """
+
+    # take the dataframe makes it a list. Then only takes the front part of
+    # it and sends it to the sliding window to get the feature chunks
+    list_of_chunks = list(_sliding_windows(
+        df[column_with_slope_sum].tolist(), batch_count))
+
+    moving_av_chunks = []
+    for chunk in list_of_chunks:
+        moving_av_chunks.append(moving_average(chunk, moving_window))
+
+    return moving_av_chunks[:cut_length]
