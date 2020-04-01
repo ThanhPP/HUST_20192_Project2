@@ -10,31 +10,13 @@ from Test124032020 import support_vector
 
 yf.pdr_override()
 
-"""
-
-
-# choose the stock
-
-# get the data
-fbTicker = yf.Ticker("FB")
-
-# get historical info
-historyData = fbTicker.history(start=start, end=end)
-print(historyData.info())
-
-print()
-
-fbHistoryData = pdr.get_data_yahoo("FB", start=start, end=end)
-print(fbHistoryData.info())
-print(list(fbHistoryData.columns))
-print()
-"""
-
+# Choose the set of stocks
 tickers = ["AAPL", "MSFT", "GOOG", "FB", "INTC", 'TSM',
            "CSCO", "ORCL", "NVDA", "SAP", "IBM", "ADBE",
            "TXN", "AVGO", "CRM", "QCOM", "MU", "BIDU",
            "ADP", "VMW", "ATVI", "AMAT", "INTU",
            "CTSH", "EA", "NXPI", "INFY", "ADI", "NOK"]
+
 # set the time frame to fetch stock data
 start = dt.datetime(2013, 10, 1)
 end = dt.datetime(2017, 4, 14)
@@ -82,8 +64,13 @@ class Ticker_Data:
     return df
     """
 
+
 def write_feature_and_targets(X, Y):
-    with open('D:\\go\\src\\github.com\\THANHPP\\HUST_20192_Project2\\Test124032020\\files\\testing_files\\all_feature.txt', 'w') as file_name:
+    with open(
+            'D:\\go\\src\\github.com\\THANHPP\\HUST_20192_Project2\\Test124032020\\files\\testing_files\\all_feature'
+            '.txt',
+            'w'
+    ) as file_name:
         for feature in X:
             file_name.write(str(feature) + ',' + '\r\n')
         for target in Y:
@@ -111,12 +98,15 @@ def main(batch_size, look_ahead):
 
     ticker_data.drop_row_with_NA()
     ticker_data.main_df.to_pickle('stock_data/df_without_NA_' + str(start.date()) + '--' + str(end.date()) + '.pkl')
+
     # print(pd.read_pickle('D:\\go\\src\\github.com\\THANHPP\\HUST_20192_Project2\\Test124032020\\stock_data\\df_without_NA_2013-10-01--2017-04-14.pkl'))
 
     print("done")
     time.sleep(1)
     ticker_data.main_df = pd.read_pickle(
-        'D:\\go\\src\\github.com\\THANHPP\\HUST_20192_Project2\\Test124032020\\stock_data\\df_without_NA_2013-10-01--2017-04-14.pkl')
+        'D:\\go\\src\\github.com\\THANHPP\\HUST_20192_Project2\\Test124032020\\stock_data\\df_without_NA_2013-10-01'
+        '--2017-04-14.pkl'
+    )
 
     ticker_data.main_df = sample_slopes.create_slope_sum_market(ticker_data.main_df)
     ticker_data.main_df.to_csv('stock_data_slope_sumNoNA' + str(start.date()) + str(end.date()) + '.csv')
@@ -128,9 +118,8 @@ def main(batch_size, look_ahead):
     sv = support_vector.Support_Vector([], [])
 
     for column in columns_with_sample_slopes:
-
         y_values = sample_slopes.generate_target_value(
-            ticker_data.main_df, batch_size, column.replace('slope_sum',  'CLS'), look_ahead)
+            ticker_data.main_df, batch_size, column.replace('slope_sum', 'CLS'), look_ahead)
         sv.Y = sv.Y + y_values[0]
 
         x_values = sample_slopes.create_batch_of_slope(
@@ -148,15 +137,3 @@ def main(batch_size, look_ahead):
 
 
 main(18, 2)
-
-"""
-a = TickerData(fbHistoryData)
-
-a.drop_row_with_zeros()
-
-a.drop_row_with_NA()
-
-a.backTester(a.main_df)
-
-print(a.main_df)
-"""
