@@ -1,6 +1,5 @@
 import datetime as dt
 import time
-
 import pandas_datareader as pdr
 import pandas as pd
 import yfinance as yf
@@ -11,11 +10,7 @@ from Test124032020 import support_vector
 yf.pdr_override()
 
 # Choose the set of stocks
-tickers = ["AAPL", "MSFT", "GOOG", "FB", "INTC", 'TSM',
-           "CSCO", "ORCL", "NVDA", "SAP", "IBM", "ADBE",
-           "TXN", "AVGO", "CRM", "QCOM", "MU", "BIDU",
-           "ADP", "VMW", "ATVI", "AMAT", "INTU",
-           "CTSH", "EA", "NXPI", "INFY", "ADI", "NOK"]
+tickers = ["AAPL", "MSFT", "GOOG", "FB"]
 
 # set the time frame to fetch stock data
 start = dt.datetime(2013, 10, 1)
@@ -121,19 +116,22 @@ def main(batch_size, look_ahead):
         y_values = sample_slopes.generate_target_value(
             ticker_data.main_df, batch_size, column.replace('slope_sum', 'CLS'), look_ahead)
         sv.Y = sv.Y + y_values[0]
+        # print('sv.Y : ', sv.Y)
 
         x_values = sample_slopes.create_batch_of_slope(
             ticker_data.main_df, column, batch_size, y_values[1]
         )
         sv.X = sv.X + x_values
+        # print('sv.X : ', sv.X)
+        print()
 
     write_feature_and_targets(sv.X, sv.Y)
 
-    print((sv.Y, 'Yvalues'))
-    print(sv.X[-1], ' Xvalues ')
+    # print((sv.Y, 'Yvalues'))
+    # print(sv.X[-1], ' Xvalues ')
     print('training the model...')
 
     sv.train()
 
 
-main(18, 2)
+main(1, 1)

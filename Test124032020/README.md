@@ -81,3 +81,15 @@ _ Bỏ các hàng có giá trị N/A và lưu lại :
 - Giá trị của ngày đầu tiên
 
 - Giá trị có N/A khác
+
+_ Thêm cột slope_sum_market
+
+- Tên tickers + slope_sum
+
+- Tính tổng chênh lệch của cổ phiếu quan tâm với tất cả các cổ phiếu khác
+
+_ Chạy thuật toán Support Vector Machine 
+
+- y_values : Tập các giá trị 1, -1 đại diện cho giá của cổ phiếu tăng hay giảm.
+- x_values : Tập các giá trị chênh lệch của cổ phiếu so với toàn bộ thị trường.
+    

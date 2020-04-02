@@ -3,6 +3,12 @@ import pandas as pd
 
 
 def create_slope_sum_market(df):
+    """
+    Takes a dataframe and looks at all the columns with percent change. Then it compare the stock of interest and
+    calculates the differences between it and the rest of the percent changes on that day in the market. Finally it sums
+    them up. returns the original dataframe with the new columns called Slope_sum
+    """
+
     columns = df.columns
     CLS_columns, CHG_columns = get_columns_with_CLS(columns)
     column_index = 1
@@ -15,6 +21,7 @@ def create_slope_sum_market(df):
         for stock in CHG_columns:
             if stock != stock_looking_at:
                 slope_sum[0] = slope_sum[0] + df[CHG_columns[column_index]] - df[stock]
+                # print(slope_sum[0], '  ', df[CHG_columns[column_index]], '  ', df[stock])
 
         df[str(CHG_columns[column_index].replace('CHG', 'slope_sum'))] = slope_sum
 
@@ -62,6 +69,7 @@ def generate_target_value(df, batch_count, column_name, look_ahead):
     while i < (len(list_of_closes) - (look_ahead + batch_count) + 1):
         target_day_index = i + batch_count + look_ahead - 1
         percent_change = find_percent_change(list_of_closes[target_day_index], list_of_closes[i + batch_count - 1])
+        # print(target_day_index, '  target_day_index  ', list_of_closes[target_day_index])
         if percent_change < 0:
             target_values.append(-1)
         else:
@@ -100,6 +108,7 @@ def create_batch_of_slope(df, column_with_slope_sum, batch_count, cut_length):
     list_of_chunks = list(_sliding_windows(
         df[column_with_slope_sum].tolist(), batch_count
     ))
+    #print(list_of_chunks)
 
     return list_of_chunks[:cut_length]
 
