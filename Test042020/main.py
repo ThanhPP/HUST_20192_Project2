@@ -26,7 +26,7 @@ LOOKUP_STEPS = 1
 N_STEPS = 50
 TEST_SIZE = 0.1
 # flag
-train_flag = False
+train_flag = True
 
 # make dir to store data
 if not os.path.isdir("results"):
@@ -44,6 +44,7 @@ def main():
                         feature_columns=FEATURE_COLUMNS)
     model = md.create_model(N_STEPS, loss=LOSS, units=UNITS, cell=CELL, n_layers=N_LAYERS, dropout=DROPOUT,
                             optimizer=OPTIMIZER)
+    # model.summary()
 
     if train_flag:
         checkpointer = ModelCheckpoint(os.path.join("results", model_name), save_best_only=True, verbose=1)
@@ -56,14 +57,13 @@ def main():
                             verbose=1)
         model.save(os.path.join("results", model_name) + ".h5")
 
-    else:
+    else :
         model_path = os.path.join("results", model_name) + ".h5"
         model.load_weights(model_path)
         mse, mae = model.evaluate(data["X_test"], data["y_test"])
         # calculate the mean absolute error (inverse scaling)
         mean_absolute_error = data["column_scaler"]["Adj Close"].inverse_transform(mae.reshape(1, -1))[0][0]
         print("Mean Absolute Error:", mean_absolute_error)
-
 
 
 main()

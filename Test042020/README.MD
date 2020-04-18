@@ -22,11 +22,11 @@ _ Các tham số nhận vào :
     - Bắt đầu : 1/1/2001
     - Kết thúc : 31/12/2019
 
-- LOOKUP_STEPS = 0.1
+- lookup_steps = 1 (Khoảng tương lai để dự đoán)
 
-- N_STEPS = 50
+- n_steps = 50 (Độ dài dữ liệu đầu vào cho model)
 
-- TEST_SIZE = 0.1
+- test_size = 0.1 (Tỉ lệ tập test và tập huấn luyện)
 
 _ Kết quả trả về :
 
@@ -49,3 +49,75 @@ _ Kết quả trả về :
 ### 2.Tạo model
 
 _ Được tạo tại file **model.py**
+
+_ Tham số nhận vào :
+
+- input_length : độ dài dữ liệu nhận vào
+
+- units : không gian đầu ra của layer
+
+- cell : LSTM (Long short-term memory)
+
+- n_layers : số lớp LSTM sẽ tạo ra
+
+- dropout : tỉ lệ bỏ qua units
+
+- loss : hàm mất mát
+
+- [optimizer](https://keras.io/optimizers/) : RMSprop
+
+_ Layer Dense : trả về 1 giá trị là giá cổ phiếu dự đoán theo *lookup_steps*
+
+![ALTTEXT](model.png)
+
+### 3. Huấn luyện model
+
+```python
+model_name = f"{TICKER}-{LOSS}-{CELL.__name__}-seq-{N_STEPS}-step-{LOOKUP_STEPS}-layers-{N_LAYERS}-units-{UNITS}"
+
+checkpointer = ModelCheckpoint(os.path.join("results", model_name), save_best_only=True, verbose=1)
+tensorboard = TensorBoard(log_dir=os.path.join("logs", model_name))
+
+history = model.fit(data['X_train'], data['y_train'],
+                    batch_size=BATCH_SIZE, epochs=EPOCHS,
+                    validation_data=(data['X_test'], data['y_test']),
+                    callbacks=[checkpointer, tensorboard],
+                    verbose=1)
+```
+
+_ batch_size : số lượng mẫu dữ liệu trong 1 batch
+
+_ epochs : số lần lặp huấn luyện trong một batch
+
+_ checkpointer : dùng để lưu lại model sau mỗi epochs (chỉ lưu lại model tốt nhất)
+
+_ tensorboard : công cụ đồ họa được cung cấp với TensorFlow
+    
+- Dùng lệnh dưới bằng command line
+```bash
+tensorboard --logdir="logs"
+```
+
+- Truy cập localhost:6006 để xem kết quả huấn luyện model 
+
+
+### 4. Kiểm tra model : 
+
+_ Load lại model :
+
+```python
+model_path = os.path.join("results", model_name) + ".h5"
+model.load_weights(model_path)
+```
+
+_ Đánh giá model bằng tập test :
+```python
+mse, mae = model.evaluate(data["X_test"], data["y_test"])
+```
+
+_ Tính toán "mean absolute error" (Giá trị dự đoán so với giá trị thực):
+```python
+mean_absolute_error = data["column_scaler"]["Adj Close"].inverse_transform(mae.reshape(1, -1))[0][0]
+print("Mean Absolute Error:", mean_absolute_error)
+```
+

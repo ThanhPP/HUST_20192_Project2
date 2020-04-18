@@ -27,6 +27,9 @@ def create_model(input_length, units=UNITS, cell=CELL, n_layers=N_LAYERS, dropou
         model.add(Dropout(dropout))
 
     model.add(Dense(1, activation="linear"))
-    model.compile(loss=LOSS, metrics=["mean_absolute_error"], optimizer=optimizer)
+    model.compile(loss=loss, metrics=[loss], optimizer=optimizer)
 
     return model
+
+model = create_model(50)
+model.summary()
