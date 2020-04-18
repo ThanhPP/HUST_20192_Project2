@@ -1,17 +1,20 @@
 import os
 import datetime as dt
+import tensorflow as tf
 
-from Test042020 import ticker_data as td
-from Test042020 import model as md
+# from Test042020
+import ticker_data as td
+import model as md
+# from Test042020
 
 from tensorflow.keras.callbacks import ModelCheckpoint, TensorBoard
 from tensorflow.keras.layers import LSTM
 
 # CONFIG
 # model
-BATCH_SIZE = 100
-EPOCHS = 20
-UNITS = 256
+BATCH_SIZE = 365
+EPOCHS = 50
+UNITS = 365
 CELL = LSTM
 N_LAYERS = 2
 DROPOUT = 0.3
@@ -19,14 +22,15 @@ LOSS = "mean_absolute_error"
 OPTIMIZER = "rmsprop"
 # data
 TICKER = "AAPL"
-START = dt.datetime(2001, 1, 1)
+START = dt.datetime(2000, 1, 1)
 END = dt.datetime(2019, 12, 31)
 FEATURE_COLUMNS = ['Adj Close', 'Volume', 'Open', 'High', 'Low']
 LOOKUP_STEPS = 1
-N_STEPS = 50
+N_STEPS = 10
 TEST_SIZE = 0.1
 # flag
-train_flag = True
+# options : train, validate, predict
+train_flag = "validate"
 
 # make dir to store data
 if not os.path.isdir("results"):
@@ -36,7 +40,8 @@ if not os.path.isdir("logs"):
 if not os.path.isdir("data"):
     os.mkdir("data")
 
-model_name = f"{TICKER}-{LOSS}-{CELL.__name__}-seq-{N_STEPS}-step-{LOOKUP_STEPS}-layers-{N_LAYERS}-units-{UNITS}"
+model_name = f"{TICKER}-{LOSS}-{CELL.__name__}-seq-{N_STEPS}-step-{LOOKUP_STEPS}-layers-{N_LAYERS}-units-{UNITS}-" \
+             f"batch_size-{BATCH_SIZE}-epochs{EPOCHS}"
 
 
 def main():
@@ -46,7 +51,7 @@ def main():
                             optimizer=OPTIMIZER)
     # model.summary()
 
-    if train_flag:
+    if train_flag == "train":
         checkpointer = ModelCheckpoint(os.path.join("results", model_name), save_best_only=True, verbose=1)
         tensorboard = TensorBoard(log_dir=os.path.join("logs", model_name))
 
@@ -57,13 +62,16 @@ def main():
                             verbose=1)
         model.save(os.path.join("results", model_name) + ".h5")
 
-    else :
+    elif train_flag == "validate" :
         model_path = os.path.join("results", model_name) + ".h5"
         model.load_weights(model_path)
         mse, mae = model.evaluate(data["X_test"], data["y_test"])
         # calculate the mean absolute error (inverse scaling)
         mean_absolute_error = data["column_scaler"]["Adj Close"].inverse_transform(mae.reshape(1, -1))[0][0]
         print("Mean Absolute Error:", mean_absolute_error)
+
+    elif train_flag == "predict" :
+        print("predict")
 
 
 main()

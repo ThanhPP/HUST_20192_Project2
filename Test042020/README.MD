@@ -100,6 +100,8 @@ tensorboard --logdir="logs"
 
 - Truy cập localhost:6006 để xem kết quả huấn luyện model 
 
+![Alttext](tensorboard.png)
+
 
 ### 4. Kiểm tra model : 
 
@@ -121,3 +123,36 @@ mean_absolute_error = data["column_scaler"]["Adj Close"].inverse_transform(mae.r
 print("Mean Absolute Error:", mean_absolute_error)
 ```
 
+### 5. Dự đoán giá chứng khoán :
+
+
+## III. Model dự đoán :
+
+###  1. Thay đổi N_STEPS :
+
+_ Các tham số không đổi :
+```
+LOOKUP_STEPS = 1
+TEST_SIZE = 0.1
+BATCH_SIZE = 365
+EPOCHS = 50
+UNITS = 365
+CELL = LSTM
+N_LAYERS = 2
+DROPOUT = 0.3
+```
+#### 1.1. N_STEPS = 10 :
+
+Mean Absolute Error: 5.699003
+
+#### 1.2. N_STEPS = 20 :
+
+Mean Absolute Error: 4.5525084
+
+#### 1.3. N_STEPS = 40 :
+
+Mean Absolute Error: 4.9959974
+
+#### 1.4. N_STEPS = 80 :
+
+Mean Absolute Error: 8.168781 
