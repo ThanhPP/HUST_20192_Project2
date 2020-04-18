@@ -59,11 +59,12 @@ def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKU
         if len(sequences) == n_steps:
             sequence_data.append([np.array(sequences), target])
 
-    # this last_sequence will be used to predict in future dates that are not available in the dataset
+    # this last_sequence will be used to predict in future dates that are not available in the data set
     last_sequence = list(sequences) + list(last_sequence)
     last_sequence = np.array(pd.DataFrame(last_sequence).shift(-1).dropna())
     # add to return
     result['last_sequence'] = last_sequence
+    # print("last_sequence", last_sequence.shape)
 
     # CONSTRUCT X & y
     X, y = [], []

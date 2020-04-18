@@ -25,6 +25,8 @@ FEATURE_COLUMNS = ['Adj Close', 'Volume', 'Open', 'High', 'Low']
 LOOKUP_STEPS = 1
 N_STEPS = 50
 TEST_SIZE = 0.1
+# flag
+train_flag = False
 
 # make dir to store data
 if not os.path.isdir("results"):
@@ -33,6 +35,7 @@ if not os.path.isdir("logs"):
     os.mkdir("logs")
 if not os.path.isdir("data"):
     os.mkdir("data")
+
 model_name = f"{TICKER}-{LOSS}-{CELL.__name__}-seq-{N_STEPS}-step-{LOOKUP_STEPS}-layers-{N_LAYERS}-units-{UNITS}"
 
 
@@ -42,15 +45,25 @@ def main():
     model = md.create_model(N_STEPS, loss=LOSS, units=UNITS, cell=CELL, n_layers=N_LAYERS, dropout=DROPOUT,
                             optimizer=OPTIMIZER)
 
-    checkpointer = ModelCheckpoint(os.path.join("results", model_name), save_best_only=True, verbose=1)
-    tensorboard = TensorBoard(log_dir=os.path.join("logs", model_name))
+    if train_flag:
+        checkpointer = ModelCheckpoint(os.path.join("results", model_name), save_best_only=True, verbose=1)
+        tensorboard = TensorBoard(log_dir=os.path.join("logs", model_name))
 
-    history = model.fit(data['X_train'], data['y_train'],
-                        batch_size=BATCH_SIZE, epochs=EPOCHS,
-                        validation_data=(data['X_test'], data['y_test']),
-                        callbacks=[checkpointer, tensorboard],
-                        verbose=1)
-    model.save(os.path.join("results", model_name) + ".h5")
+        history = model.fit(data['X_train'], data['y_train'],
+                            batch_size=BATCH_SIZE, epochs=EPOCHS,
+                            validation_data=(data['X_test'], data['y_test']),
+                            callbacks=[checkpointer, tensorboard],
+                            verbose=1)
+        model.save(os.path.join("results", model_name) + ".h5")
+
+    else:
+        model_path = os.path.join("results", model_name) + ".h5"
+        model.load_weights(model_path)
+        mse, mae = model.evaluate(data["X_test"], data["y_test"])
+        # calculate the mean absolute error (inverse scaling)
+        mean_absolute_error = data["column_scaler"]["Adj Close"].inverse_transform(mae.reshape(1, -1))[0][0]
+        print("Mean Absolute Error:", mean_absolute_error)
+
 
 
 main()
