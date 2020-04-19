@@ -14,7 +14,7 @@ from tensorflow.keras.layers import LSTM
 # model
 BATCH_SIZE = 365
 EPOCHS = 50
-UNITS = 512
+UNITS = 365
 CELL = LSTM
 N_LAYERS = 2
 DROPOUT = 0.3

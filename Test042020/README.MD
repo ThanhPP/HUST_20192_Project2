@@ -68,7 +68,7 @@ _ Tham số nhận vào :
 
 _ Layer Dense : trả về 1 giá trị là giá cổ phiếu dự đoán theo *lookup_steps*
 
-![ALTTEXT](model.png)
+![ALTTEXT](img/model.png)
 
 ### 3. Huấn luyện model
 
@@ -100,7 +100,7 @@ tensorboard --logdir="logs"
 
 - Truy cập localhost:6006 để xem kết quả huấn luyện model 
 
-![Alttext](tensorboard.png)
+![Alttext](img/tensorboard.png)
 
 
 ### 4. Kiểm tra model : 
@@ -157,6 +157,10 @@ Mean Absolute Error: 4.9959974
 
 Mean Absolute Error: 8.168781 
 
+#### Epoch loss :
+
+![ALTTEXT](img/nStepsEpochLost.png)
+
 ### 2. Thay đổi UNITS
 
 _ Các tham số không đổi :
@@ -182,3 +186,11 @@ Mean Absolute Error: 5.3770585
 #### 2.3. UNITS = 512 :
 
 Mean Absolute Error: 7.841156 
+
+#### 2.4. UNITS = 365 : 
+
+Mean Absolute Error: 4.7897167
+
+#### Epoch loss :
+
+![ALTTEXT](img/unitsEpochLost.png)
