@@ -14,7 +14,7 @@ from tensorflow.keras.layers import LSTM
 # model
 BATCH_SIZE = 365
 EPOCHS = 50
-UNITS = 365
+UNITS = 512
 CELL = LSTM
 N_LAYERS = 2
 DROPOUT = 0.3
@@ -26,7 +26,7 @@ START = dt.datetime(2000, 1, 1)
 END = dt.datetime(2019, 12, 31)
 FEATURE_COLUMNS = ['Adj Close', 'Volume', 'Open', 'High', 'Low']
 LOOKUP_STEPS = 1
-N_STEPS = 10
+N_STEPS = 20
 TEST_SIZE = 0.1
 # flag
 # options : train, validate, predict

@@ -156,3 +156,29 @@ Mean Absolute Error: 4.9959974
 #### 1.4. N_STEPS = 80 :
 
 Mean Absolute Error: 8.168781 
+
+### 2. Thay đổi UNITS
+
+_ Các tham số không đổi :
+```
+LOOKUP_STEPS = 1
+TEST_SIZE = 0.1
+BATCH_SIZE = 365
+EPOCHS = 50
+N_STEPS = 20
+CELL = LSTM
+N_LAYERS = 2
+DROPOUT = 0.3
+```
+
+#### 2.1. UNITS = 128 :
+
+Mean Absolute Error: 6.968446 
+
+#### 2.2. UNITS = 256 :
+
+Mean Absolute Error: 5.3770585
+
+#### 2.3. UNITS = 512 :
+
+Mean Absolute Error: 7.841156 
