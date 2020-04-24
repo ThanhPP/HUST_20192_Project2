@@ -20,6 +20,7 @@ N_LAYERS = 2
 DROPOUT = 0.3
 LOSS = "mean_absolute_error"
 OPTIMIZER = "rmsprop"
+
 # data
 TICKER = "AAPL"
 START = dt.datetime(2000, 1, 1)
@@ -51,6 +52,7 @@ def main():
                             optimizer=OPTIMIZER)
     # model.summary()
 
+    # TRAIN
     if train_flag == "train":
         checkpointer = ModelCheckpoint(os.path.join("results", model_name), save_best_only=True, verbose=1)
         tensorboard = TensorBoard(log_dir=os.path.join("logs", model_name))
@@ -62,6 +64,7 @@ def main():
                             verbose=1)
         model.save(os.path.join("results", model_name) + ".h5")
 
+    # VALIDATE
     elif train_flag == "validate" :
         model_path = os.path.join("results", model_name) + ".h5"
         model.load_weights(model_path)
@@ -70,6 +73,7 @@ def main():
         mean_absolute_error = data["column_scaler"]["Adj Close"].inverse_transform(mae.reshape(1, -1))[0][0]
         print("Mean Absolute Error:", mean_absolute_error)
 
+    # PREDICT
     elif train_flag == "predict" :
         print("predict")
 

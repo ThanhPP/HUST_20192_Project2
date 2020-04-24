@@ -3,6 +3,7 @@ import pandas_datareader as pdr
 import datetime as dt
 import yfinance as yf
 import numpy as np
+import os
 
 from collections import deque
 from sklearn import preprocessing
@@ -23,10 +24,26 @@ TEST_SIZE = 0.1
 def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKUP_STEPS, n_steps=N_STEPS,
               test_size=TEST_SIZE):
     result = {}
+
     # GET STOCK DATA
     print("from ", START, "to ", END)
-    print("Crawling : " + str(ticker))
-    df = pdr.get_data_yahoo(str(ticker), start=START, end=END)
+    ticker_string = ""
+    for ticker_name in ticker:
+        ticker_string = ticker_string + ticker_name + ","
+    ticker_data_file_name = "ticker_data/" + ticker_string + str(START.date()) + "-" + str(END.date()) + ".csv"
+
+    df = pd.DataFrame()
+    if os.path.isfile(ticker_data_file_name):
+        print("read from file")
+        df = pd.read_csv(ticker_data_file_name)
+        print(df.shape)
+        print(df.head())
+    else:
+        print("Crawling : " + str(ticker))
+        df = pdr.get_data_yahoo(str(ticker), start=START, end=END)
+        print(df.shape)
+        print(df.head())
+        df.to_csv(ticker_data_file_name, mode="w")
 
     # insert df in return
     result['df'] = df.copy()
