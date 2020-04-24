@@ -36,13 +36,13 @@ def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKU
     if os.path.isfile(ticker_data_file_name):
         print("read from file")
         df = pd.read_csv(ticker_data_file_name)
-        print(df.shape)
-        print(df.head())
+        # print(df.shape)
+        # print(df.head())
     else:
         print("Crawling : " + str(ticker))
         df = pdr.get_data_yahoo(str(ticker), start=START, end=END)
-        print(df.shape)
-        print(df.head())
+        # print(df.shape)
+        # print(df.head())
         df.to_csv(ticker_data_file_name, mode="w")
 
     # insert df in return

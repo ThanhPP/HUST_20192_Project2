@@ -1,6 +1,7 @@
 import os
 import datetime as dt
-import tensorflow as tf
+import numpy as np
+
 
 # from Test042020
 import ticker_data as td
@@ -20,6 +21,7 @@ N_LAYERS = 2
 DROPOUT = 0.3
 LOSS = "mean_absolute_error"
 OPTIMIZER = "rmsprop"
+
 # data
 TICKER = "AAPL"
 START = dt.datetime(2000, 1, 1)
@@ -28,6 +30,7 @@ FEATURE_COLUMNS = ['Adj Close', 'Volume', 'Open', 'High', 'Low']
 LOOKUP_STEPS = 1
 N_STEPS = 20
 TEST_SIZE = 0.1
+
 # flag
 # options : train, validate, predict
 train_flag = "validate"
@@ -78,6 +81,19 @@ def main():
         # get the column_scaler
         column_scaler = data["column_scaler"]
 
+        # reshape the last sequence
+        last_sequence = last_sequence.reshape((last_sequence.shape[1], last_sequence.shape[0]))
+
+        # expand dimension
+        last_sequence = np.expand_dims(last_sequence, axis=0)
+
+        # get the predict price (scaled from 0 to 1)
+        prediction = model.predict(last_sequence)
+
+        # get the true data price (inverse with the scaler)
+        predicted_price = column_scaler["Adj Close"].inverse_transform(prediction)[0][0]
+
+        print(f"Future price after {LOOKUP_STEPS} days is {predicted_price:.2f}$")
 
 
 main()

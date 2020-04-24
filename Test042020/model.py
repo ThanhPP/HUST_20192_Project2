@@ -31,5 +31,6 @@ def create_model(input_length, units=UNITS, cell=CELL, n_layers=N_LAYERS, dropou
 
     return model
 
-model = create_model(50)
-model.summary()
+
+# model = create_model(50)
+# model.summary()

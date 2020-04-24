@@ -1,11 +1,11 @@
 import os
 import datetime as dt
-import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
 
-# from Test042020
+
 import ticker as td
 import model as md
-# from Test042020
 
 from tensorflow.keras.callbacks import ModelCheckpoint, TensorBoard
 from tensorflow.keras.layers import LSTM
@@ -31,7 +31,7 @@ N_STEPS = 20
 TEST_SIZE = 0.1
 # flag
 # options : train, validate, predict
-train_flag = "validate"
+train_flag = "predict"
 
 # make dir to store data
 if not os.path.isdir("results"):
@@ -76,6 +76,44 @@ def main():
     # PREDICT
     elif train_flag == "predict" :
         print("predict")
+        # load the model
+        model_path = os.path.join("results", model_name) + ".h5"
+        model.load_weights(model_path)
+
+        # get the last sequence
+        last_sequence = data["last_sequence"][:N_STEPS]
+
+        # get the column_scaler
+        column_scaler = data["column_scaler"]
+
+        # reshape the last sequence
+        last_sequence = last_sequence.reshape((last_sequence.shape[1], last_sequence.shape[0]))
+
+        # expand dimension
+        last_sequence = np.expand_dims(last_sequence, axis=0)
+
+        # get the predict price (scaled from 0 to 1)
+        prediction = model.predict(last_sequence)
+
+        # get the true data price (inverse with the scaler)
+        predicted_price = column_scaler["Adj Close"].inverse_transform(prediction)[0][0]
+
+        print(f"Future price after {LOOKUP_STEPS} days is {predicted_price:.2f}$")
+
+        # show graph
+        y_test = data["y_test"]
+        X_test = data["X_test"]
+        y_pred = model.predict(X_test)
+
+        y_test = np.squeeze(data["column_scaler"]["Adj Close"].inverse_transform(np.expand_dims(y_test, axis=0)))
+        y_pred = np.squeeze(data["column_scaler"]["Adj Close"].inverse_transform(y_pred))
+
+        plt.plot(y_test[-30:], c='b')
+        plt.plot(y_pred[-30:], c='r')
+        plt.xlabel("Days")
+        plt.ylabel("Price")
+        plt.legend(["Actual Price", "Predicted Price"])
+        plt.show()
 
 
 main()
