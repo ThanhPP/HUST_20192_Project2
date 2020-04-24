@@ -14,7 +14,7 @@ _ [**Các tài liệu khác**](https://drive.google.com/open?id=1bVA8XYJ_cDb9mNI
 
 ## Các chương trình thử nghiệm :
 
-### 1. [TEST 1](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test124032020).
+### 1. [TEST 1](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test124032020)
 
 [Link tham khảo](https://medium.com/@jasonbamford/machine-learning-algorithm-to-predict-stock-direction-d54b7666cc7c)
 
