@@ -62,7 +62,7 @@ def main():
                             verbose=1)
         model.save(os.path.join("results", model_name) + ".h5")
 
-    elif train_flag == "validate" :
+    elif train_flag == "validate":
         model_path = os.path.join("results", model_name) + ".h5"
         model.load_weights(model_path)
         mse, mae = model.evaluate(data["X_test"], data["y_test"])
@@ -70,8 +70,14 @@ def main():
         mean_absolute_error = data["column_scaler"]["Adj Close"].inverse_transform(mae.reshape(1, -1))[0][0]
         print("Mean Absolute Error:", mean_absolute_error)
 
-    elif train_flag == "predict" :
+    elif train_flag == "predict":
         print("predict")
+        # get the last sequence
+        last_sequence = data["last_sequence"][:N_STEPS]
+
+        # get the column_scaler
+        column_scaler = data["column_scaler"]
+
 
 
 main()
