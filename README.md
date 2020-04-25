@@ -3,16 +3,17 @@
 ## MỤC LỤC : 
 
 - [Stock trending using Machine Learning](#stock-trending-using-machine-learning)
-  * [Chi tiết đề tài :](#chi-ti-t----t-i--)
-  * [Chương trình chính :](#ch--ng-tr-nh-ch-nh--)
-    + [1. Chức năng các file :](#1-ch-c-n-ng-c-c-file--)
-    + [2. Mô hình LSTM 2 lớp :](#2-m--h-nh-lstm-2-l-p--)
-      - [2.1. Dự đoán cổ phiếu Apple :](#21-d---o-n-c--phi-u-apple--)
-      - [2.1. Dự đoán cổ phiếu Microsoft :](#21-d---o-n-c--phi-u-microsoft--)
-  * [Các chương trình thử nghiệm :](#c-c-ch--ng-tr-nh-th--nghi-m--)
-    + [1. TEST 1](#1--test-1--https---githubcom-thanhpp-hust-20192-project2-tree-master-test124032020-)
-    + [2. TEST 2](#2--test-2--https---githubcom-thanhpp-hust-20192-project2-tree-master-test042020-)
-  * [Tài liệu tham khảo :](#t-i-li-u-tham-kh-o--)
+  * [MỤC LỤC](#mục-lục-)
+  * [Chi tiết đề tài :](#chi-tiết-đề-tài)
+  * [Chương trình chính :](#chương-trình chính-)
+    + [1. Chức năng các file :](#1-chức-năng-các-file-)
+    + [2. Mô hình LSTM 2 lớp :](#2-mô-hình-lstm-2-lớp-)
+      - [2.1. Dự đoán cổ phiếu Apple :](#21-dự-đoán-cổ-phiếu-apple-)
+      - [2.2. Dự đoán cổ phiếu Microsoft :](22-dự-đoán-cổ-phiếu-microsoft-)
+  * [Các chương trình thử nghiệm :](#các-chương-trình-thử-nghiệm-)
+    + [1. TEST 1](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test124032020)
+    + [2. TEST 2](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test042020)
+  * [Tài liệu tham khảo :](#tài-liệu-tham-khảo-)
 
 
 ## Chi tiết đề tài : 
@@ -85,7 +86,7 @@ _ Biểu đồ giá trị dự đoán 10 ngày cuối của tập test :
 - N_STEPS = 30 :
 ![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps30_Graph_25042020.png)
     
-#### 2.1. Dự đoán cổ phiếu Microsoft :
+#### 2.2. Dự đoán cổ phiếu Microsoft :
 _ Thông tin giá lấy về : 01/01/2001 - 31/12/2019
 
 _ Thông số cho model :
