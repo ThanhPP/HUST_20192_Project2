@@ -90,11 +90,21 @@ def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKU
         y.append(target)
     # convert to numpy arrays
     X = np.array(X)
+    # print(X.shape)
     y = np.array(y)
     # reshape X to fit the neural network
     X = X.reshape((X.shape[0], X.shape[2], X.shape[1]))
+    # print(X.shape)
     # split the dataset
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
+
+    X_train = X[int(len(X) * test_size):]
+    y_train = y[int(len(X) * test_size):]
+
+    X_test = X[:int(len(y) * test_size)]
+    y_test = y[:int(len(y) * test_size)]
+
+
+    # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
     result['X_train'] = X_train
     result['X_test'] = X_test
     result['y_train'] = y_train

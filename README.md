@@ -56,7 +56,7 @@ _ Thông tin giá lấy về : 01/01/2001 - 31/12/2019
 _ Thông số cho model :
 ```python
 BATCH_SIZE = 365
-EPOCHS = 50
+EPOCHS = 10
 UNITS = 365
 CELL = LSTM
 N_LAYERS = 2
@@ -76,15 +76,21 @@ _ Epoch loss khi train
 
 - Khi thay đổi N_Steps(Độ dài đầu vào cho model) :
     - Loss ban đầu khi N_Steps lớn hơn là nhỏ hơn.
-    - Tuy nhiên thì sau khoảng 10 epochs thì giá trị ổn định và giảm chậm.
-    - Sau khoảng 50 epochs thì chênh lệch giữa 2 model là không đáng kể.
+    - Tuy nhiên thì sau khoảng 5 epochs thì giá trị ổn định và giảm chậm.
+    - Sau khoảng 6 epochs thì chênh lệch giữa 2 model là không đáng kể.
     
-_ Biểu đồ giá trị dự đoán 10 ngày cuối của tập test :
+_ Biểu đồ giá trị dự đoán 365 ngày cuối của tập test :
 - N_STEPS = 20 : 
+mse = 0.00039345361405713976 ----- mae = 0.00039345360710285604
+Mean Absolute Error: 0.92842233
 ![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps20_Graph_25042020.png)
-    
+
 - N_STEPS = 30 :
+mse = 0.00048213856950999565 ----- mae = 0.00048213856643997133
+Mean Absolute Error: 0.95433086
 ![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps30_Graph_25042020.png)
+    
+
     
 #### 2.2. Dự đoán cổ phiếu Microsoft :
 _ Thông tin giá lấy về : 01/01/2001 - 31/12/2019
@@ -92,7 +98,7 @@ _ Thông tin giá lấy về : 01/01/2001 - 31/12/2019
 _ Thông số cho model :
 ```python
 BATCH_SIZE = 365
-EPOCHS = 50
+EPOCHS = 10
 UNITS = 365
 CELL = LSTM
 N_LAYERS = 2
@@ -109,7 +115,9 @@ TEST_SIZE = 0.1
 _ Epoch loss khi train :
 ![ALTEXT](img/MSFT_LSTM_2_Layers_NSteps_25042020.png)
 
-_ Biểu đồ giá trị dự đoán 10 ngày cuối của tập test :
+_ Biểu đồ giá trị dự đoán 365 ngày cuối của tập test :
+mse = 0.005337629556949985 ----- mae = 0.005337629932910204
+Mean Absolute Error: 12.482952
 ![ALTTEXT](img/MSFT_LSTM_2_Layers_NSteps20_Graph_25042020.png)
 
 ## Các chương trình thử nghiệm :

@@ -13,7 +13,7 @@ from tensorflow.keras.layers import LSTM
 # CONFIG
 # model
 BATCH_SIZE = 365
-EPOCHS = 50
+EPOCHS = 10
 UNITS = 365
 CELL = LSTM
 N_LAYERS = 2
@@ -69,6 +69,7 @@ def main():
         model_path = os.path.join("results", model_name) + ".h5"
         model.load_weights(model_path)
         mse, mae = model.evaluate(data["X_test"], data["y_test"])
+        print(f"mse = {mse} ----- mae = {mae}")
         # calculate the mean absolute error (inverse scaling)
         mean_absolute_error = data["column_scaler"]["Adj Close"].inverse_transform(mae.reshape(1, -1))[0][0]
         print("Mean Absolute Error:", mean_absolute_error)
@@ -106,8 +107,8 @@ def main():
         y_pred = model.predict(X_test)
         y_test = np.squeeze(data["column_scaler"]["Adj Close"].inverse_transform(np.expand_dims(y_test, axis=0)))
         y_pred = np.squeeze(data["column_scaler"]["Adj Close"].inverse_transform(y_pred))
-        plt.plot(y_test[-10:], c='b')
-        plt.plot(y_pred[-10:], c='r')
+        plt.plot(y_test[-365:], c='b')
+        plt.plot(y_pred[-365:], c='r')
         plt.xlabel("Days")
         plt.ylabel("Price")
         plt.legend(["Actual Price", "Predicted Price"])
