@@ -1,5 +1,20 @@
 # Stock trending using Machine Learning
 
+## MỤC LỤC : 
+
+- [Stock trending using Machine Learning](#stock-trending-using-machine-learning)
+  * [Chi tiết đề tài :](#chi-ti-t----t-i--)
+  * [Chương trình chính :](#ch--ng-tr-nh-ch-nh--)
+    + [1. Chức năng các file :](#1-ch-c-n-ng-c-c-file--)
+    + [2. Mô hình LSTM 2 lớp :](#2-m--h-nh-lstm-2-l-p--)
+      - [2.1. Dự đoán cổ phiếu Apple :](#21-d---o-n-c--phi-u-apple--)
+      - [2.1. Dự đoán cổ phiếu Microsoft :](#21-d---o-n-c--phi-u-microsoft--)
+  * [Các chương trình thử nghiệm :](#c-c-ch--ng-tr-nh-th--nghi-m--)
+    + [1. TEST 1](#1--test-1--https---githubcom-thanhpp-hust-20192-project2-tree-master-test124032020-)
+    + [2. TEST 2](#2--test-2--https---githubcom-thanhpp-hust-20192-project2-tree-master-test042020-)
+  * [Tài liệu tham khảo :](#t-i-li-u-tham-kh-o--)
+
+
 ## Chi tiết đề tài : 
 
 _ **Tên học phần** : Project 2.
@@ -12,16 +27,6 @@ _ **Sinh viên thực hiện** : Phan Phú Thành.
 
 _ [**Các tài liệu khác**](https://drive.google.com/open?id=1bVA8XYJ_cDb9mNIbi9VGlNTvnni_0VFJ)
 
-## Các chương trình thử nghiệm :
-
-### 1. [TEST 1](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test124032020)
-
-[Link tham khảo](https://medium.com/@jasonbamford/machine-learning-algorithm-to-predict-stock-direction-d54b7666cc7c)
-
-### 2. [TEST 2](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test042020)
-
-[Link tham khảo](https://www.thepythoncode.com/article/stock-price-prediction-in-python-using-tensorflow-2-and-keras)
-
 ## Chương trình chính :
 
 ### 1. Chức năng các file :
@@ -32,6 +37,89 @@ _ ticker.py : để lấy và xử lý dữ liệu về chỉ số chứng khoá
 
 _ model.py : tạo model từ tensorflow.
 
+### 2. Mô hình LSTM 2 lớp : 
+
+![ALTTEXT](img/LSTM_2_Layers_25042020.png)
+
+![ALTTEXT](img/LSTM_2_Layers_Summary_25042020.png)
+
+_ Mô tả mô hình :
+- Lớp thứ 1 : LSTM
+- Lớp thứ 2 : [Dropout](https://www.phamduytung.com/blog/2019-05-05-deep-learning-dropout/) (rate = 0.3)
+- Lớp thứ 3 : LSTM
+- Lớp thứ 4 : Dense = 1 (chỉ đưa ra 1 giá trị là giá cổ phiếu theo lookup_steps)
+
+#### 2.1. Dự đoán cổ phiếu Apple :
+_ Thông tin giá lấy về : 01/01/2001 - 31/12/2019
+
+_ Thông số cho model :
+```python
+BATCH_SIZE = 365
+EPOCHS = 50
+UNITS = 365
+CELL = LSTM
+N_LAYERS = 2
+DROPOUT = 0.3
+LOSS = "mean_absolute_error"
+OPTIMIZER = "adam"
+
+# data
+LOOKUP_STEPS = 1
+N_STEPS = 20
+TEST_SIZE = 0.1
+```
+
+_ Epoch loss khi train 
+
+![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps_25042020.png)
+
+- Khi thay đổi N_Steps(Độ dài đầu vào cho model) :
+    - Loss ban đầu khi N_Steps lớn hơn là nhỏ hơn.
+    - Tuy nhiên thì sau khoảng 10 epochs thì giá trị ổn định và giảm chậm.
+    - Sau khoảng 50 epochs thì chênh lệch giữa 2 model là không đáng kể.
+    
+_ Biểu đồ giá trị dự đoán 10 ngày cuối của tập test :
+- N_STEPS = 20 : 
+![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps20_Graph_25042020.png)
+    
+- N_STEPS = 30 :
+![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps30_Graph_25042020.png)
+    
+#### 2.1. Dự đoán cổ phiếu Microsoft :
+_ Thông tin giá lấy về : 01/01/2001 - 31/12/2019
+
+_ Thông số cho model :
+```python
+BATCH_SIZE = 365
+EPOCHS = 50
+UNITS = 365
+CELL = LSTM
+N_LAYERS = 2
+DROPOUT = 0.3
+LOSS = "mean_absolute_error"
+OPTIMIZER = "adam"
+
+# data
+LOOKUP_STEPS = 1
+N_STEPS = 20
+TEST_SIZE = 0.1
+```
+
+_ Epoch loss khi train :
+![ALTEXT](img/MSFT_LSTM_2_Layers_NSteps_25042020.png)
+
+_ Biểu đồ giá trị dự đoán 10 ngày cuối của tập test :
+![ALTTEXT](img/MSFT_LSTM_2_Layers_NSteps20_Graph_25042020.png)
+
+## Các chương trình thử nghiệm :
+
+### 1. [TEST 1](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test124032020)
+
+[Link tham khảo](https://medium.com/@jasonbamford/machine-learning-algorithm-to-predict-stock-direction-d54b7666cc7c)
+
+### 2. [TEST 2](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test042020)
+
+[Link tham khảo](https://www.thepythoncode.com/article/stock-price-prediction-in-python-using-tensorflow-2-and-keras)
 
 ## Tài liệu tham khảo : 
 

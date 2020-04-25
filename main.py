@@ -22,7 +22,7 @@ LOSS = "mean_absolute_error"
 OPTIMIZER = "adam"
 
 # data
-TICKER = "AAPL"
+TICKER = "MSFT"
 START = dt.datetime(2000, 1, 1)
 END = dt.datetime(2019, 12, 31)
 FEATURE_COLUMNS = ['Adj Close', 'Volume', 'Open', 'High', 'Low']
@@ -31,7 +31,7 @@ N_STEPS = 20
 TEST_SIZE = 0.1
 # flag
 # options : train, validate, predict
-train_flag = "validate"
+train_flag = "predict"
 
 # make dir to store data
 if not os.path.isdir("results"):
