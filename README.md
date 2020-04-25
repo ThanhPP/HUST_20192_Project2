@@ -9,7 +9,7 @@
     + [1. Chức năng các file :](#1-chức-năng-các-file-)
     + [2. Mô hình LSTM 2 lớp :](#2-mô-hình-lstm-2-lớp-)
       - [2.1. Dự đoán cổ phiếu Apple :](#21-dự-đoán-cổ-phiếu-apple-)
-      - [2.2. Dự đoán cổ phiếu Microsoft :](22-dự-đoán-cổ-phiếu-microsoft-)
+      - [2.2. Dự đoán cổ phiếu Microsoft :](#22-dự-đoán-cổ-phiếu-microsoft-)
   * [Các chương trình thử nghiệm :](#các-chương-trình-thử-nghiệm-)
     + [1. TEST 1](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test124032020)
     + [2. TEST 2](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test042020)
@@ -50,7 +50,7 @@ _ Mô tả mô hình :
 - Lớp thứ 3 : LSTM
 - Lớp thứ 4 : Dense = 1 (chỉ đưa ra 1 giá trị là giá cổ phiếu theo lookup_steps)
 
-####2.1. Dự đoán cổ phiếu Apple :
+#### 2.1. Dự đoán cổ phiếu Apple :
 _ Thông tin giá lấy về : 01/01/2001 - 31/12/2019
 
 _ Thông số cho model :
@@ -86,7 +86,7 @@ _ Biểu đồ giá trị dự đoán 10 ngày cuối của tập test :
 - N_STEPS = 30 :
 ![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps30_Graph_25042020.png)
     
-####2.2. Dự đoán cổ phiếu Microsoft :
+#### 2.2. Dự đoán cổ phiếu Microsoft :
 _ Thông tin giá lấy về : 01/01/2001 - 31/12/2019
 
 _ Thông số cho model :
