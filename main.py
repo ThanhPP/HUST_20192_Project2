@@ -3,10 +3,10 @@ import datetime as dt
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 import ticker as td
 import model as md
 
+from sklearn.metrics import accuracy_score
 from tensorflow.keras.callbacks import ModelCheckpoint, TensorBoard
 from tensorflow.keras.layers import LSTM
 
@@ -19,7 +19,7 @@ CELL = LSTM
 N_LAYERS = 2
 DROPOUT = 0.3
 LOSS = "mean_absolute_error"
-OPTIMIZER = "rmsprop"
+OPTIMIZER = "adam"
 
 # data
 TICKER = "AAPL"
@@ -31,7 +31,7 @@ N_STEPS = 20
 TEST_SIZE = 0.1
 # flag
 # options : train, validate, predict
-train_flag = "predict"
+train_flag = "validate"
 
 # make dir to store data
 if not os.path.isdir("results"):
@@ -41,8 +41,8 @@ if not os.path.isdir("logs"):
 if not os.path.isdir("data"):
     os.mkdir("data")
 
-model_name = f"{TICKER}-{LOSS}-{CELL.__name__}-seq-{N_STEPS}-step-{LOOKUP_STEPS}-layers-{N_LAYERS}-units-{UNITS}-" \
-             f"batch_size-{BATCH_SIZE}-epochs{EPOCHS}"
+model_name = f"{TICKER}-{LOSS}-{CELL.__name__}--seq-{N_STEPS}--step-{LOOKUP_STEPS}--layers-{N_LAYERS}--units-{UNITS}--" \
+             f"batch_size-{BATCH_SIZE}--epochs{EPOCHS}--optimizer-{OPTIMIZER}"
 
 
 def main():
@@ -104,12 +104,10 @@ def main():
         y_test = data["y_test"]
         X_test = data["X_test"]
         y_pred = model.predict(X_test)
-
         y_test = np.squeeze(data["column_scaler"]["Adj Close"].inverse_transform(np.expand_dims(y_test, axis=0)))
         y_pred = np.squeeze(data["column_scaler"]["Adj Close"].inverse_transform(y_pred))
-
-        plt.plot(y_test[-30:], c='b')
-        plt.plot(y_pred[-30:], c='r')
+        plt.plot(y_test[-10:], c='b')
+        plt.plot(y_pred[-10:], c='r')
         plt.xlabel("Days")
         plt.ylabel("Price")
         plt.legend(["Actual Price", "Predicted Price"])

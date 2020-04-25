@@ -29,8 +29,8 @@ def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKU
     print("from ", START, "to ", END)
     ticker_string = ""
     for ticker_name in ticker:
-        ticker_string = ticker_string + ticker_name + ","
-    ticker_data_file_name = "ticker_data/" + ticker_string + str(START.date()) + "-" + str(END.date()) + ".csv"
+        ticker_string = ticker_string + ticker_name
+    ticker_data_file_name = "ticker_data/" + ticker_string + "-" + str(START.date()) + "-" + str(END.date()) + ".csv"
 
     df = pd.DataFrame()
     if os.path.isfile(ticker_data_file_name):
