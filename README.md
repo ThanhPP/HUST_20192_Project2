@@ -15,6 +15,24 @@
 - [2. TEST 2](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test042020)
 #### [Tài liệu tham khảo](#tài-liệu-tham-khảo-)
 
+- [Stock trending using Machine Learning](#stock-trending-using-machine-learning)
+  - [MỤC LỤC :](#m%e1%bb%a4c-l%e1%bb%a4c)
+    - [Stock trending using Machine Learning](#stock-trending-using-machine-learning-1)
+      - [MỤC LỤC](#m%e1%bb%a4c-l%e1%bb%a4c-1)
+      - [Chi tiết đề tài](#chi-ti%e1%ba%bft-%c4%91%e1%bb%81-t%c3%a0i)
+      - [Chương trình chính](#ch%c6%b0%c6%a1ng-tr%c3%acnh-ch%c3%adnh)
+      - [Các chương trình thử nghiệm](#c%c3%a1c-ch%c6%b0%c6%a1ng-tr%c3%acnh-th%e1%bb%ad-nghi%e1%bb%87m)
+      - [Tài liệu tham khảo](#t%c3%a0i-li%e1%bb%87u-tham-kh%e1%ba%a3o)
+  - [Chi tiết đề tài :](#chi-ti%e1%ba%bft-%c4%91%e1%bb%81-t%c3%a0i-1)
+  - [Chương trình chính :](#ch%c6%b0%c6%a1ng-tr%c3%acnh-ch%c3%adnh-1)
+    - [1. Chức năng các file :](#1-ch%e1%bb%a9c-n%c4%83ng-c%c3%a1c-file)
+    - [2. Mô hình LSTM 2 lớp :](#2-m%c3%b4-h%c3%acnh-lstm-2-l%e1%bb%9bp)
+      - [2.1. Dự đoán cổ phiếu Apple :](#21-d%e1%bb%b1-%c4%91o%c3%a1n-c%e1%bb%95-phi%e1%ba%bfu-apple)
+      - [2.2. Dự đoán cổ phiếu Microsoft :](#22-d%e1%bb%b1-%c4%91o%c3%a1n-c%e1%bb%95-phi%e1%ba%bfu-microsoft)
+  - [Các chương trình thử nghiệm :](#c%c3%a1c-ch%c6%b0%c6%a1ng-tr%c3%acnh-th%e1%bb%ad-nghi%e1%bb%87m-1)
+    - [1. TEST 1](#1-test-1)
+    - [2. TEST 2](#2-test-2)
+  - [Tài liệu tham khảo :](#t%c3%a0i-li%e1%bb%87u-tham-kh%e1%ba%a3o-1)
 
 ## Chi tiết đề tài : 
 
