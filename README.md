@@ -80,13 +80,19 @@ _ Epoch loss khi train
     
 _ Biểu đồ giá trị dự đoán 365 ngày cuối của tập test :
 - N_STEPS = 20 : 
+
 mse = 0.00039345361405713976 ----- mae = 0.00039345360710285604
+
 Mean Absolute Error: 0.92842233
+
 ![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps20_Graph_25042020.png)
 
 - N_STEPS = 30 :
+
 mse = 0.00048213856950999565 ----- mae = 0.00048213856643997133
+
 Mean Absolute Error: 0.95433086
+
 ![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps30_Graph_25042020.png)
     
 
@@ -115,8 +121,11 @@ _ Epoch loss khi train :
 ![ALTEXT](img/MSFT_LSTM_2_Layers_NSteps_25042020.png)
 
 _ Biểu đồ giá trị dự đoán 365 ngày cuối của tập test :
+
 mse = 0.005337629556949985 ----- mae = 0.005337629932910204
+
 Mean Absolute Error: 12.482952
+
 ![ALTTEXT](img/MSFT_LSTM_2_Layers_NSteps20_Graph_25042020.png)
 
 ## Các chương trình thử nghiệm :
