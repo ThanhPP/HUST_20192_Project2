@@ -30,8 +30,8 @@ LOOKUP_STEPS = 1
 N_STEPS = 20
 TEST_SIZE = 0.1
 # flag
-# options : train, validate, predict
-train_flag = "predict"
+# options : train, validate, predict, graph
+train_flag = "graph"
 
 # make dir to store data
 if not os.path.isdir("results"):
@@ -101,6 +101,9 @@ def main():
 
         print(f"Future price after {LOOKUP_STEPS} days is {predicted_price:.2f}$")
 
+    elif train_flag == "graph":
+        model_path = os.path.join("results", model_name) + ".h5"
+        model.load_weights(model_path)
         # show graph
         y_test = data["y_test"]
         X_test = data["X_test"]

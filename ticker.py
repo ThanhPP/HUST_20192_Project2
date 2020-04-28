@@ -62,7 +62,7 @@ def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKU
 
     # insert scaler in return
     result['column_scaler'] = column_scaler
-
+    # print(np.squeeze(column_scaler["Adj Close"].inverse_transform(np.expand_dims(df["Adj Close"].values, axis=1))))
     # add the target column (label) by shifting by `lookup_steps`
     # last `lookup_step` columns contains NaN in future column
     df['future'] = df['Adj Close'].shift(-lookup_steps)
@@ -97,18 +97,22 @@ def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKU
     # print(X.shape)
     # split the dataset
 
-    X_train = X[int(len(X) * test_size):]
-    y_train = y[int(len(X) * test_size):]
+    X_train = X[:int(len(X) * (1 - test_size))]
+    y_train = y[:int(len(X) * (1 - test_size))]
+    # print(f"\n {y_train.shape} --- {len(X) * test_size}\n")
 
-    X_test = X[:int(len(y) * test_size)]
-    y_test = y[:int(len(y) * test_size)]
+    X_test = X[-int(len(y) * test_size):]
+    y_test = y[-int(len(y) * test_size):]
 
 
     # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
     result['X_train'] = X_train
-    result['X_test'] = X_test
     result['y_train'] = y_train
+
+    result['X_test'] = X_test
     result['y_test'] = y_test
+
+    # print(np.squeeze(column_scaler["Adj Close"].inverse_transform(np.expand_dims(y_train, axis=1))))
 
     # RETURN
     return result

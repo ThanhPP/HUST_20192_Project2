@@ -71,7 +71,7 @@ TEST_SIZE = 0.1
 
 _ Epoch loss khi train 
 
-![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps_25042020.png)
+![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps_28-04-2020.png)
 
 - Khi thay đổi N_Steps(Độ dài đầu vào cho model) :
     - Loss ban đầu khi N_Steps lớn hơn là nhỏ hơn.
@@ -81,19 +81,19 @@ _ Epoch loss khi train
 _ Biểu đồ giá trị dự đoán 365 ngày cuối của tập test :
 - N_STEPS = 20 : 
 
-mse = 0.00039345361405713976 ----- mae = 0.00039345360710285604
+mse = 0.023677738003040613 ----- mae = 0.02367773838341236
 
-Mean Absolute Error: 0.92842233
+Mean Absolute Error: 7.730722
 
-![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps20_Graph_25042020.png)
+![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps20_Graph_28-04-2020.png)
 
 - N_STEPS = 30 :
 
-mse = 0.00048213856950999565 ----- mae = 0.00048213856643997133
+mse = 0.02757912206184512 ----- mae = 0.02757912315428257
 
-Mean Absolute Error: 0.95433086
+Mean Absolute Error: 8.870477
 
-![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps30_Graph_25042020.png)
+![ALTTEXT](img/AAPL_LSTM_2_Layers_NSteps30_Graph_28-04-2020.png)
     
 
     
@@ -118,15 +118,15 @@ TEST_SIZE = 0.1
 ```
 
 _ Epoch loss khi train :
-![ALTEXT](img/MSFT_LSTM_2_Layers_NSteps_25042020.png)
+![ALTEXT](img/MSFT_LSTM_2_Layers_NSteps_28-04-2020.png)
 
 _ Biểu đồ giá trị dự đoán 365 ngày cuối của tập test :
 
-mse = 0.005337629556949985 ----- mae = 0.005337629932910204
+mse = 0.014268360381063662 ----- mae = 0.0142683619633317
 
-Mean Absolute Error: 12.482952
+Mean Absolute Error: 13.794232
 
-![ALTTEXT](img/MSFT_LSTM_2_Layers_NSteps20_Graph_25042020.png)
+![ALTTEXT](img/MSFT_LSTM_2_Layers_NSteps20_Graph_28-04-2020.png)
 
 ## Các chương trình thử nghiệm :
 
