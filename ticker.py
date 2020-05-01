@@ -7,7 +7,6 @@ import os
 
 from collections import deque
 from sklearn import preprocessing
-from sklearn.model_selection import train_test_split
 
 yf.pdr_override()
 
@@ -21,6 +20,12 @@ N_STEPS = 50
 TEST_SIZE = 0.1
 
 
+def check_features_col(df, feature_columns=FEATURE_COLUMNS):
+    # make sure that the feature_columns exist in the dataframe
+    for col in feature_columns:
+        assert col in df.columns
+
+
 def get_stock_data_from_Yahoo(ticker=TICKER, start=START, end=END):
     print(f"crawling data of {ticker} from {start} to {end}")
     ticker_data_file_name = "ticker_data/" + ticker + "-" + str(START.date()) + "-" + str(END.date()) + ".csv"
@@ -28,6 +33,8 @@ def get_stock_data_from_Yahoo(ticker=TICKER, start=START, end=END):
     df = pdr.get_data_yahoo(str(ticker),
                             start=start,
                             end=end)
+
+    check_features_col(df)
 
     df.to_csv(ticker_data_file_name, mode="w")
     return df
@@ -40,12 +47,99 @@ def get_stock_data_from_file(ticker=TICKER, start=START, end=END):
     if os.path.isfile(ticker_data_file_name):
         print("File exist -> reading")
         df = pd.read_csv(ticker_data_file_name)
+
+        check_features_col(df)
+
         return df
 
     print(f"{ticker_data_file_name} not exist")
-    return
+    return pd.DataFrame()
 
 
+def scale_data(df, feature_columns=FEATURE_COLUMNS):
+    column_scaler = {}
+    for column in feature_columns:
+        scaler = preprocessing.MinMaxScaler()
+        df[column] = scaler.fit_transform(np.expand_dims(df[column].values, axis=1))
+    return column_scaler, df
+
+
+def generate_future_col(df, feature_col="Adj Close", lookup_steps=LOOKUP_STEPS):
+    # add the target column (label) by shifting by `lookup_steps`
+    # last `lookup_step` columns contains NaN in future column
+    df["future"] = df[feature_col].shift(-lookup_steps)
+    return df
+
+
+def generate_sequence_data(df, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKUP_STEPS, n_steps=N_STEPS):
+    # this last_sequence will be used to predict in future dates that are not available in the data set
+    last_sequence = np.array(df[feature_columns].tail(lookup_steps))
+    df.dropna(inplace=True)
+
+    sequence_data = []
+    sequences = deque(maxlen=n_steps)
+    for entry, target in zip(df[feature_columns].values, df["future"].values):
+        sequences.append(entry)
+        if len(sequences) == n_steps:
+            sequence_data.append([np.array(sequences), target])
+
+    last_sequence = list(sequences) + list(last_sequence)
+    last_sequence = np.array(pd.DataFrame(last_sequence).shift(-1).dropna())
+
+    return sequence_data, last_sequence
+
+
+def generate_x_and_y(sequence_data, test_size=TEST_SIZE):
+    X, y = [], []
+    for seq, target in sequence_data:
+        X.append(seq)
+        y.append(target)
+
+    # convert to numpy array
+    X = np.array(X)
+    y = np.array(y)
+
+    # reshape X for the model
+    X = X.reshape((X.shape[0], X.shape[2], X.shape[1]))
+
+    # split the data
+    X_train = X[:int(len(X) * (1 - test_size))]
+    y_train = y[:int(len(X) * (1 - test_size))]
+
+    X_test = X[-int(len(y) * test_size):]
+    y_test = y[-int(len(y) * test_size):]
+
+    return X_train, y_train, X_test, y_test
+
+
+def load_data(ticker=TICKER, start=START, end=END, feature_columns=FEATURE_COLUMNS,
+              lookup_steps=LOOKUP_STEPS, n_steps=N_STEPS, test_size=TEST_SIZE):
+    result = {}
+
+    # get data
+    df = pd.DataFrame()
+    df = get_stock_data_from_file(ticker=ticker, start=start, end=end)
+    if df.empty:
+        df = get_stock_data_from_Yahoo(ticker=ticker, start=start, end=end)
+
+    result['df'] = df.copy()
+
+    result['column_scaler'], scaled_df = scale_data(df)
+
+    scaled_df = generate_future_col(scaled_df)
+
+    sequence_data, last_sequence = generate_sequence_data(scaled_df, feature_columns=feature_columns,
+                                                          lookup_steps=lookup_steps, n_steps=n_steps)
+
+    result['last_sequence'] = last_sequence
+
+    result['X_train'], result['y_train'], result['X_test'], result['y_test'] = generate_x_and_y(sequence_data,
+                                                                                                test_size=test_size)
+
+
+load_data()
+
+""" OLD LOAD_DATA
 def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKUP_STEPS, n_steps=N_STEPS,
               test_size=TEST_SIZE):
     result = {}
@@ -137,6 +231,4 @@ def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKU
 
     # RETURN
     return result
-
-
-load_data()
+    """
