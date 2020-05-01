@@ -61,6 +61,8 @@ def scale_data(df, feature_columns=FEATURE_COLUMNS):
     for column in feature_columns:
         scaler = preprocessing.MinMaxScaler()
         df[column] = scaler.fit_transform(np.expand_dims(df[column].values, axis=1))
+        column_scaler[column] = scaler
+
     return column_scaler, df
 
 
@@ -133,8 +135,14 @@ def load_data(ticker=TICKER, start=START, end=END, feature_columns=FEATURE_COLUM
 
     result['last_sequence'] = last_sequence
 
-    result['X_train'], result['y_train'], result['X_test'], result['y_test'] = generate_x_and_y(sequence_data,
-                                                                                                test_size=test_size)
+    X_train, y_train, X_test, y_test = generate_x_and_y(sequence_data, test_size=test_size)
+
+    result['X_train'] = X_train
+    result['y_train'] = y_train
+    result['X_test'] = X_test
+    result['y_test'] = y_test
+
+    return result
 
 
 load_data()
@@ -215,8 +223,6 @@ def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKU
 
     X_train = X[:int(len(X) * (1 - test_size))]
     y_train = y[:int(len(X) * (1 - test_size))]
-    # print(f"\n {y_train.shape} --- {len(X) * test_size}\n")
-
     X_test = X[-int(len(y) * test_size):]
     y_test = y[-int(len(y) * test_size):]
 

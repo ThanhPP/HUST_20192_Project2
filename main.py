@@ -48,6 +48,7 @@ model_name = f"{TICKER}-{LOSS}-{CELL.__name__}--seq-{N_STEPS}--step-{LOOKUP_STEP
 def main():
     data = td.load_data(ticker=TICKER, n_steps=N_STEPS, lookup_steps=LOOKUP_STEPS, test_size=TEST_SIZE,
                         feature_columns=FEATURE_COLUMNS)
+
     model = md.create_model(N_STEPS, loss=LOSS, units=UNITS, cell=CELL, n_layers=N_LAYERS, dropout=DROPOUT,
                             optimizer=OPTIMIZER)
     # model.summary()
@@ -75,7 +76,7 @@ def main():
         print("Mean Absolute Error:", mean_absolute_error)
 
     # PREDICT
-    elif train_flag == "predict" :
+    elif train_flag == "predict":
         print("predict")
         # load the model
         model_path = os.path.join("results", model_name) + ".h5"
