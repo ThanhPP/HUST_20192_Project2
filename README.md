@@ -24,7 +24,11 @@ _ **Tên đề tài** : Ứng dụng học máy trong phân tích dữ liệu t�
 
 _ **Người hướng dẫn** : giảng viên Đỗ Tuấn Anh.
 
-_ **Sinh viên thực hiện** : Phan Phú Thành.
+_ **Sinh viên thực hiện** : 
+
+- Phan Phú Thành
+
+- [Nguyễn Thanh Tùng](https://github.com/pinezapple)
 
 _ [**Các tài liệu khác**](https://drive.google.com/open?id=1bVA8XYJ_cDb9mNIbi9VGlNTvnni_0VFJ)
 
