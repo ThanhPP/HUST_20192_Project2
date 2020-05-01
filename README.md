@@ -3,17 +3,18 @@
 ## MỤC LỤC : 
 
 ### [Stock trending using Machine Learning](#stock-trending-using-machine-learning)
-#### [MỤC LỤC](#mục-lục-)
-#### [Chi tiết đề tài](#chi-tiết-đề-tài-)
-#### [Chương trình chính](#chương-trình-chính-)
+#### [I. MỤC LỤC](#mục-lục-)
+#### [II. Chi tiết đề tài](#chi-tiết-đề-tài-)
+#### [III. Chương trình chính](#chương-trình-chính-)
 - [1. Chức năng các file](#1-chức-năng-các-file-)
 - [2. Mô hình LSTM 2 lớp](#2-mô-hình-lstm-2-lớp-)
     - [2.1. Dự đoán cổ phiếu Apple](#21-dự-đoán-cổ-phiếu-apple-)
     - [2.2. Dự đoán cổ phiếu Microsoft](#22-dự-đoán-cổ-phiếu-microsoft-)
-#### [Các chương trình thử nghiệm](#các-chương-trình-thử-nghiệm-)
+- [3. Kết nối với cơ sở dữ liệu](#3-kết-nối-với-cơ-sở-dữ-liệu-)
+#### [IV. Các chương trình thử nghiệm](#các-chương-trình-thử-nghiệm-)
 - [1. TEST 1](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test124032020)
 - [2. TEST 2](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test042020)
-#### [Tài liệu tham khảo](#tài-liệu-tham-khảo-)
+#### [V. Tài liệu tham khảo](#tài-liệu-tham-khảo-)
 
 ## Chi tiết đề tài : 
 
@@ -127,6 +128,14 @@ mse = 0.014268360381063662 ----- mae = 0.0142683619633317
 Mean Absolute Error: 13.794232
 
 ![ALTTEXT](img/MSFT_LSTM_2_Layers_NSteps20_Graph_28-04-2020.png)
+
+### 3. Kết nối với cơ sở dữ liệu :
+_ [Crawler golang](https://github.com/pinezapple/HUST20192-Project2)
+
+_ File : database.py
+
+_ Cơ sở dữ liệu : mySQL
+
 
 ## Các chương trình thử nghiệm :
 
