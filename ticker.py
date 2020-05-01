@@ -21,16 +21,38 @@ N_STEPS = 50
 TEST_SIZE = 0.1
 
 
+def get_stock_data_from_Yahoo(ticker=TICKER, start=START, end=END):
+    print(f"crawling data of {ticker} from {start} to {end}")
+    ticker_data_file_name = "ticker_data/" + ticker + "-" + str(START.date()) + "-" + str(END.date()) + ".csv"
+
+    df = pdr.get_data_yahoo(str(ticker),
+                            start=start,
+                            end=end)
+
+    df.to_csv(ticker_data_file_name, mode="w")
+    return df
+
+
+def get_stock_data_from_file(ticker=TICKER, start=START, end=END):
+    ticker_data_file_name = "ticker_data/" + ticker + "-" + str(start.date()) + "-" + str(end.date()) + ".csv"
+    print(f"Read from file : {ticker_data_file_name}")
+
+    if os.path.isfile(ticker_data_file_name):
+        print("File exist -> reading")
+        df = pd.read_csv(ticker_data_file_name)
+        return df
+
+    print(f"{ticker_data_file_name} not exist")
+    return
+
+
 def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKUP_STEPS, n_steps=N_STEPS,
               test_size=TEST_SIZE):
     result = {}
 
     # GET STOCK DATA
     print("from ", START, "to ", END)
-    ticker_string = ""
-    for ticker_name in ticker:
-        ticker_string = ticker_string + ticker_name
-    ticker_data_file_name = "ticker_data/" + ticker_string + "-" + str(START.date()) + "-" + str(END.date()) + ".csv"
+    ticker_data_file_name = "ticker_data/" + ticker + "-" + str(START.date()) + "-" + str(END.date()) + ".csv"
 
     df = pd.DataFrame()
     if os.path.isfile(ticker_data_file_name):
@@ -103,7 +125,6 @@ def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKU
 
     X_test = X[-int(len(y) * test_size):]
     y_test = y[-int(len(y) * test_size):]
-
 
     # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
     result['X_train'] = X_train
