@@ -1,0 +1,18 @@
+# web server
+PORT=8806
+BODY_LIMIT="1M"
+JWT_EXPIRE_TIME=1440
+
+#database
+SHARD_NUMBER = 1
+SHARD_ADDRESS=["127.0.0.1:3306"]
+SHARD_TYPE = ["mysql"]
+SHARD_NAME = ["StockData"]
+SHARD_USER = ["root"]
+SHARD_PASSWORD = ["123"]
+DB_ARGS="charset=utf8&collation=utf8_general_ci&parseTime=true&loc=Asia%2FHo_Chi_Minh"
+DB_MAX_IDLE=2
+DB_MAX_OPEN=4
+
+#stock list
+STOCK_LIST = ["GOOG"]
