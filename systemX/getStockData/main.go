@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"hash/fnv"
+	"log"
 	"sync"
 
 	"database/sql"
@@ -16,6 +17,8 @@ type Config struct {
 	webServer *webServerConfig
 	shard     *shardConfig
 	stockList []string
+	startDate string
+	endDate   string
 }
 type webServerConfig struct {
 	Port int
@@ -67,6 +70,8 @@ func init() {
 			IsWsrep:       false,
 		},
 		stockList: viper.GetStringSlice("STOCK_LIST"),
+		startDate: viper.GetString("START_DATE"),
+		endDate:   viper.GetString("END_DATE"),
 	}
 
 	// init db shard Obj
@@ -75,9 +80,7 @@ func init() {
 	for i := 0; i < config.shard.ShardNumber; i++ {
 		dns := config.shard.ShardUserName[i] + ":" + config.shard.ShardPassword[i] + "@tcp(" + config.shard.ShardAddress[i] + ")/" + config.shard.ShardDBName[i]
 
-		//	db, err := sql.Open("mysql",
-		//		"user:password@tcp(127.0.0.1:3306)/hello")
-		db, err := sql.Open("mysql", dns)
+		db, err := sql.Open(config.shard.ShardDBType[i], dns)
 		if err != nil {
 			panic(err)
 		}
@@ -113,7 +116,7 @@ func writeToDB(shardID uint32, stockData quote.Quote, stockName string) error {
 	}
 	defer tx.Rollback()
 
-	fmt.Println(stockName)
+	log.Println("Start writting to DB ", stockName)
 
 	st := "DROP TABLE IF EXISTS `" + stockName + "`"
 
@@ -163,32 +166,6 @@ func writeToDB(shardID uint32, stockData quote.Quote, stockName string) error {
 	}
 
 	st4 := "insert into ticker(name,status) values (?,?)"
-	/*
-		st5 := "update ticker set name status=? where name=?"
-
-		stmtTicker, err := tx.Prepare("select status from ticker where name=?")
-		k, err := stmtTicker.Exec(stockName)
-		if err != nil {
-			dbShardObj[shardID].Unlock()
-			return err
-		}
-
-
-		if k != nil {
-			stmtTicker2, err := tx.Prepare(st5)
-			if err != nil {
-				dbShardObj[shardID].Unlock()
-				return err
-			}
-
-			_, err = stmtTicker2.Exec("ok", stockName)
-			if err != nil {
-				dbShardObj[shardID].Unlock()
-				return err
-			}
-
-		} else {
-	*/
 	stmtTicker2, err := tx.Prepare(st4)
 	if err != nil {
 		dbShardObj[shardID].Unlock()
@@ -201,24 +178,25 @@ func writeToDB(shardID uint32, stockData quote.Quote, stockName string) error {
 		return err
 	}
 
-	//}
-
 	err = tx.Commit()
 	if err != nil {
 		dbShardObj[shardID].Unlock()
 		return err
 	}
 
+	log.Println("Done writting to DB", stockName)
 	dbShardObj[shardID].Unlock()
 	return err
 }
 
 func getDataFromYahoo(stockName string) error {
 
-	stockData, err := quote.NewQuoteFromYahoo(stockName, "2010-01-01", "2020-04-01", quote.Daily, true)
+	log.Println("Start getting data from YH ", stockName)
+	stockData, err := quote.NewQuoteFromYahoo(stockName, config.startDate, config.endDate, quote.Daily, true)
 	if err != nil {
 		return err
 	}
+	log.Println("Done getting data from YH ", stockName)
 	hash := getHash(stockName)
 	err = writeToDB(hash%uint32(config.shard.ShardNumber), stockData, stockName)
 	return err
