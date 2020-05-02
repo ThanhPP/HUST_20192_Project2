@@ -1,6 +1,7 @@
 package core
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"sync"
@@ -10,7 +11,7 @@ import (
 	"portal/model"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/linxGnu/mssqlx"
+	_ "github.com/go-sql-driver/mysql"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -78,6 +79,18 @@ type Config struct {
 	// WebServer configuration
 	WebServer *WebServer `json:"WebServer"`
 	// Database configuration
+	Database *Database `json:"Database"`
+}
+
+type Database struct {
+	Address     string
+	DBType      string
+	DBName      string
+	UserName    string
+	Password    string
+	MaxIdleConn int
+	MaxOpenConn int
+	IsWsrep     bool
 }
 
 // BindingConf binding configuration for webserver
@@ -151,7 +164,6 @@ func (c *Secure) SipHash(payload []byte) uint64 {
 }
 
 var (
-	db                *mssqlx.DBs
 	configLock        sync.RWMutex
 	serverConf        *Config
 	serverBindingConf *BindingConf
@@ -191,11 +203,46 @@ func init() {
 				SipHashSum1: 323869573058327753,
 			},
 		},
+		Database: &Database{
+			Address:     viper.GetString("SHARD_ADDRESS"),
+			DBType:      viper.GetString("SHARD_TYPE"),
+			DBName:      viper.GetString("SHARD_NAME"),
+			UserName:    viper.GetString("SHARD_USER"),
+			Password:    viper.GetString("SHARD_PASSWORD"),
+			MaxIdleConn: viper.GetInt("DB_MAX_IDLE"),
+			MaxOpenConn: viper.GetInt("DB_MAX_OPEN"),
+			IsWsrep:     false,
+		},
 	}
 
 	serverBindingConf = &BindingConf{
 		Port: viper.GetInt("PORT"),
 	}
+
+	dns := serverConf.Database.UserName + ":" + serverConf.Database.Password + "@tcp(" + serverConf.Database.Address + ")/" + serverConf.Database.DBName
+
+	dbObj, err := sql.Open(serverConf.Database.DBType, dns)
+	if err != nil {
+		panic(err)
+	}
+	SetDB(dbObj)
+}
+
+var db *sql.DB
+var dbLock sync.RWMutex
+
+func GetDB() (_db *sql.DB) {
+	dbLock.RLock()
+	_db = db
+	dbLock.RUnlock()
+	return
+}
+
+func SetDB(dbO *sql.DB) {
+	dbLock.Lock()
+	db = dbO
+	dbLock.Unlock()
+	return
 }
 
 // GetConfig get current configuration for webserver

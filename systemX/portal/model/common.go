@@ -141,3 +141,27 @@ func NewSecureCookieMW(config SecureCookieConfig) echo.MiddlewareFunc {
 		}
 	}
 }
+
+//------------------------------------------------- HTTP Request -----------------------------------------------
+type AllRequest struct {
+	From string `json:"from"`
+	To   string `json:"to"`
+}
+type TicketRequest struct {
+	Name string `json:"name"`
+	From string `json:"from"`
+	To   string `json:"to"`
+}
+
+type ManyTicketsRequest struct {
+	Names []string `json:"names"`
+	From  string   `json:"from"`
+	To    string   `json:"to"`
+}
+
+//--------------------------------------------------- DB obj ----------------------------------------------------
+type StockPredicted struct {
+	Name      string  `json:"name" db:"name"`
+	Price     float32 `json:"price" db:"price"`
+	Timestamp string  `json:"timestamp" db:"timestamp"`
+}

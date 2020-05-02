@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"sync"
 
+	"portal/controller/stock"
 	"portal/core"
 	"portal/model"
 
@@ -75,25 +76,28 @@ func WebServer(termination model.TermChan, testMode bool) (fn model.DaemonFunc, 
 	// Secure middleware provides protection against cross-site scripting (XSS) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
 	// For more example, please refer to https://echo.labstack.com/
 	e.Use(mw.Secure())
+	/*
+		// Restricted group of URIs for
+		r := e.Group("/r")
+		r.Use(mw.JWTWithConfig(mw.JWTConfig{
+			Claims:      &model.Claim{},
+			ContextKey:  mainConf.WebServer.Secure.JWT.ContextKey,
+			SigningKey:  []byte(mainConf.WebServer.Secure.JWT.SecretKey),
+			TokenLookup: "header:authorization",
+		}))
 
-	// Restricted group of URIs for
-	r := e.Group("/r")
-	r.Use(mw.JWTWithConfig(mw.JWTConfig{
-		Claims:      &model.Claim{},
-		ContextKey:  mainConf.WebServer.Secure.JWT.ContextKey,
-		SigningKey:  []byte(mainConf.WebServer.Secure.JWT.SecretKey),
-		TokenLookup: "header:authorization",
-	}))
+		// SecureCookie middleware enable secure cookie feature for authorization
+		r.Use(model.NewSecureCookieMW(model.SecureCookieConfig{
+			HashKey:    []byte(mainConf.WebServer.Secure.SecureCookie.HashKey),
+			BlockKey:   []byte(mainConf.WebServer.Secure.SecureCookie.BlockKey),
+			CookieName: mainConf.WebServer.Secure.SecureCookie.CookieName,
+			ContextKey: mainConf.WebServer.Secure.SecureCookie.ContextKey,
+		}))
+		// init router
+		initRouter(e, r)
+	*/
 
-	// SecureCookie middleware enable secure cookie feature for authorization
-	r.Use(model.NewSecureCookieMW(model.SecureCookieConfig{
-		HashKey:    []byte(mainConf.WebServer.Secure.SecureCookie.HashKey),
-		BlockKey:   []byte(mainConf.WebServer.Secure.SecureCookie.BlockKey),
-		CookieName: mainConf.WebServer.Secure.SecureCookie.CookieName,
-		ContextKey: mainConf.WebServer.Secure.SecureCookie.ContextKey,
-	}))
-	// init router
-	initRouter(e, r)
+	initRouter(e)
 
 	// Start server
 	go func() {
@@ -117,23 +121,12 @@ func WebServer(termination model.TermChan, testMode bool) (fn model.DaemonFunc, 
 	return
 }
 
-func initRouter(e *echo.Echo, r *echo.Group) {
-	/*
-		initCheckerRouter(e)
-
-		e.Static("/www", "www")
-		// index
-		e.GET("/", func(c echo.Context) error { return c.File("www/dist/index.html") })
-		// login
-		e.POST("/p/login", authen.Login)
-		initUserRouter(r)
-		initDepartmentRouter(r)
-		initPlanRouter(r)
-		initGroupRouter(r)
-		initActionRouter(r)
-		initResourceRouter(r)
-	*/
+func initRouter(e *echo.Echo) {
+	e.POST("/get/all", stock.GetAllPredictedPrice)
+	e.POST("/get/ticket", stock.GetPredictedPriceByTicket)
+	e.POST("/get/tickets", stock.GetPredictedPriceByTickets)
 }
+
 func loadTLSConf(certFile, keyFile string) (*tls.Config, error) {
 	tlsConfig := &tls.Config{
 		MinVersion:               tls.VersionTLS12,
