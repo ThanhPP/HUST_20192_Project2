@@ -113,6 +113,4 @@ Mean Absolute Error: 13.794232
 ![ALTTEXT](img/MSFT_LSTM_2_Layers_NSteps20_Graph_28-04-2020.png)
 
 ### 3. Kết nối với cơ sở dữ liệu :
-_ [Crawler golang](https://github.com/pinezapple/HUST20192-Project2)
-
 _ Cơ sở dữ liệu : mySQL
