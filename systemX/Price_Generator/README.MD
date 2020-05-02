@@ -5,8 +5,8 @@
 ### [1. Chức năng các file :](#1-chức-năng-các-file-)
 
 ### [2. Mô hình LSTM 2 lớp :](#2-mô-hình-lstm-2-lớp-)
-- [2.1. Dự đoán cổ phiếu Apple :](#21-dự-đoán-giá-cổ-phiếu-apple-)
-- [2.2. Dự đoán cổ phiếu Microsoft :](#22-dự-đoán-giá-cổ-phiếu-microsoft-)
+- [2.1. Dự đoán cổ phiếu Apple :](#21-dự-đoán-cổ-phiếu-apple-)
+- [2.2. Dự đoán cổ phiếu Microsoft :](#22-dự-đoán-cổ-phiếu-microsoft-)
 
 ### [3. Kết nối với cơ sở dữ liệu :](#3-kết-nối-với-cơ-sở-dữ-liệu-)
 
