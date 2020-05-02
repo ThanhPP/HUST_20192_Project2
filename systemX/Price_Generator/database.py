@@ -1,12 +1,7 @@
 import mysql.connector
+import pandas as pd
 from mysql.connector import Error
-
-# CONFIG
-HOST = "127.0.0.1"
-PORT = "3306"
-DATABASE = "stockdata"
-USER = "root"
-PASSWORD = "Thanh.1809PP"
+import config
 
 
 def connect(host, port, database, usr, pwd):
@@ -37,25 +32,18 @@ def close_connection(connection):
 
 def get_stock_data(ticker):
     connection = connect(
-        host=HOST,
-        port=PORT,
-        database=DATABASE,
-        usr=USER,
-        pwd=PASSWORD
+        host=config.getEnvValue("HOST"),
+        port=config.getEnvValue("PORT"),
+        database=config.getEnvValue("DATABASE"),
+        usr=config.getEnvValue("USER"),
+        pwd=config.getEnvValue("PASSWORD")
     )
 
-    cursor = connection.cursor()
-
-    mySQL_query = "SELECT *" \
-                  "FROM " + str(ticker)
-
-    cursor.execute(mySQL_query)
-
-    records = cursor.fetchall()
-
-    print(f"Total rows = {cursor.rowcount}")
+    df = pd.read_sql('SELECT * FROM ' + ticker, con=connection)
 
     close_connection(connection)
+
+    return df
 
 
 get_stock_data("GOOG")
