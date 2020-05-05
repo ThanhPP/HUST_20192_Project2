@@ -2,6 +2,10 @@
 
 ## MỤC LỤC :
 
+#### [0. Các chương trình tạo model thử nghiệm](#0-các-chương-trình-tạo-model-thử-nghiệm-)
+- [1. TEST 1](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/systemX/Price_Generator/_0_Model_test_file/Test124032020)
+- [2. TEST 2](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/systemX/Price_Generator/_0_Model_test_file/Test042020)
+
 ### [1. Chức năng các file :](#1-chức-năng-các-file-)
 
 ### [2. Mô hình LSTM 2 lớp :](#2-mô-hình-lstm-2-lớp-)
@@ -10,6 +14,17 @@
 
 ### [3. Kết nối với cơ sở dữ liệu :](#3-kết-nối-với-cơ-sở-dữ-liệu-)
 
+## NỘI DUNG :
+
+## 0. Các chương trình tạo model thử nghiệm :
+
+### 1. [TEST 1](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test124032020)
+
+[Link tham khảo](https://medium.com/@jasonbamford/machine-learning-algorithm-to-predict-stock-direction-d54b7666cc7c)
+
+### 2. [TEST 2](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test042020)
+
+[Link tham khảo](https://www.thepythoncode.com/article/stock-price-prediction-in-python-using-tensorflow-2-and-keras)
 
 ### 1. Chức năng các file :
 
