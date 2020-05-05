@@ -39,11 +39,25 @@ def get_stock_data(ticker):
         pwd=config.getEnvValue("PASSWORD")
     )
 
-    df = pd.read_sql('SELECT * FROM ' + ticker, con=connection)
+    if check_ticker_db(ticker, connection) != "ok":
+        return pd.DataFrame()
+
+    df = pd.read_sql('SELECT * FROM ' + ticker
+                     + ' WHERE `timestamp` '
+                       'BETWEEN \'' + config.getEnvValue("START_DATE") + ' 00:00:00 AM\' ' +
+                     'AND \'' + config.getEnvValue("END_DATE") + ' 00:00:00 AM\';'
+                     , con=connection)
 
     close_connection(connection)
 
     return df
+
+
+def check_ticker_db(ticker, connection):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM ticker WHERE name LIKE \'' + ticker + "\' LIMIT 1;")
+    for row in cursor:
+        return row[1]
 
 
 print(get_stock_data("GOOG").head())

@@ -5,6 +5,8 @@ import yfinance as yf
 import numpy as np
 import os
 
+import database as db
+
 from collections import deque
 from sklearn import preprocessing
 
@@ -14,7 +16,7 @@ yf.pdr_override()
 TICKER = "AAPL"
 START = dt.datetime(2001, 1, 1)
 END = dt.datetime(2019, 12, 31)
-FEATURE_COLUMNS = ['Adj Close', 'Volume', 'Open', 'High', 'Low']
+FEATURE_COLUMNS = ['open', 'high', 'low', 'close', 'volume']
 LOOKUP_STEPS = 1
 N_STEPS = 50
 TEST_SIZE = 0.1
@@ -68,7 +70,7 @@ def scale_data(df, feature_columns=FEATURE_COLUMNS):
     return column_scaler, df
 
 
-def generate_future_col(df, feature_col="Adj Close", lookup_steps=LOOKUP_STEPS):
+def generate_future_col(df, feature_col="close", lookup_steps=LOOKUP_STEPS):
     # add the target column (label) by shifting by `lookup_steps`
     # last `lookup_step` columns contains NaN in future column
     df["future"] = df[feature_col].shift(-lookup_steps)
@@ -122,9 +124,9 @@ def load_data(ticker=TICKER, start=START, end=END, feature_columns=FEATURE_COLUM
 
     # get data
     df = pd.DataFrame()
-    df = get_stock_data_from_file(ticker=ticker, start=start, end=end)
+    df = db.get_stock_data(ticker)
     if df.empty:
-        df = get_stock_data_from_Yahoo(ticker=ticker, start=start, end=end)
+        return
 
     result['df'] = df.copy()
 
@@ -147,7 +149,7 @@ def load_data(ticker=TICKER, start=START, end=END, feature_columns=FEATURE_COLUM
     return result
 
 
-get_stock_data_from_Yahoo()
+load_data("GOOG")
 
 """ OLD LOAD_DATA
 def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKUP_STEPS, n_steps=N_STEPS,
