@@ -34,6 +34,8 @@ def get_stock_data_from_Yahoo(ticker=TICKER, start=START, end=END):
                             start=start,
                             end=end)
 
+    print(df.head())
+
     check_features_col(df)
 
     df.to_csv(ticker_data_file_name, mode="w")
@@ -145,7 +147,7 @@ def load_data(ticker=TICKER, start=START, end=END, feature_columns=FEATURE_COLUM
     return result
 
 
-load_data()
+get_stock_data_from_Yahoo()
 
 """ OLD LOAD_DATA
 def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKUP_STEPS, n_steps=N_STEPS,

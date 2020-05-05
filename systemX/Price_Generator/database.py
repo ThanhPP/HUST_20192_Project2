@@ -46,6 +46,6 @@ def get_stock_data(ticker):
     return df
 
 
-get_stock_data("GOOG")
+print(get_stock_data("GOOG").head())
 
 
