@@ -8,11 +8,8 @@
 
 #### [II. Chi tiết đề tài](#chi-tiết-đề-tài-)
 
-#### [III. Các chương trình tạo model thử nghiệm](#các-chương-trình-tạo-model-thử-nghiệm-)
-- [1. TEST 1](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test124032020)
-- [2. TEST 2](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test042020)
 
-#### [V. Tài liệu tham khảo](#tài-liệu-tham-khảo-)
+#### [III. Tài liệu tham khảo](#tài-liệu-tham-khảo-)
 
 ## Chi tiết đề tài : 
 
@@ -30,15 +27,9 @@ _ **Sinh viên thực hiện** :
 
 _ [**Các tài liệu khác**](https://drive.google.com/open?id=1bVA8XYJ_cDb9mNIbi9VGlNTvnni_0VFJ)
 
-## Các chương trình tạo model thử nghiệm :
+## Chương trình chính :
 
-### 1. [TEST 1](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test124032020)
-
-[Link tham khảo](https://medium.com/@jasonbamford/machine-learning-algorithm-to-predict-stock-direction-d54b7666cc7c)
-
-### 2. [TEST 2](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/Test042020)
-
-[Link tham khảo](https://www.thepythoncode.com/article/stock-price-prediction-in-python-using-tensorflow-2-and-keras)
+### [1. Price_Generator](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/systemX/Price_Generator)
 
 ## Tài liệu tham khảo : 
 

@@ -22,10 +22,8 @@ LOSS = "mean_absolute_error"
 OPTIMIZER = "adam"
 
 # data
-TICKER = "MSFT"
-START = dt.datetime(2000, 1, 1)
-END = dt.datetime(2019, 12, 31)
-FEATURE_COLUMNS = ['Adj Close', 'Volume', 'Open', 'High', 'Low']
+TICKER = "GOOG"
+FEATURE_COLUMNS = ['open', 'high', 'low', 'close', 'volume']
 LOOKUP_STEPS = 1
 N_STEPS = 20
 TEST_SIZE = 0.1
@@ -66,13 +64,13 @@ def main():
         model.save(os.path.join("results", model_name) + ".h5")
 
     # VALIDATE
-    elif train_flag == "validate" :
+    elif train_flag == "validate":
         model_path = os.path.join("results", model_name) + ".h5"
         model.load_weights(model_path)
         mse, mae = model.evaluate(data["X_test"], data["y_test"])
         print(f"mse = {mse} ----- mae = {mae}")
         # calculate the mean absolute error (inverse scaling)
-        mean_absolute_error = data["column_scaler"]["Adj Close"].inverse_transform(mae.reshape(1, -1))[0][0]
+        mean_absolute_error = data["column_scaler"]["close"].inverse_transform(mae.reshape(1, -1))[0][0]
         print("Mean Absolute Error:", mean_absolute_error)
 
     # PREDICT
@@ -109,10 +107,10 @@ def main():
         y_test = data["y_test"]
         X_test = data["X_test"]
         y_pred = model.predict(X_test)
-        y_test = np.squeeze(data["column_scaler"]["Adj Close"].inverse_transform(np.expand_dims(y_test, axis=0)))
-        y_pred = np.squeeze(data["column_scaler"]["Adj Close"].inverse_transform(y_pred))
-        plt.plot(y_test[-365:], c='b')
-        plt.plot(y_pred[-365:], c='r')
+        y_test = np.squeeze(data["column_scaler"]["close"].inverse_transform(np.expand_dims(y_test, axis=0)))
+        y_pred = np.squeeze(data["column_scaler"]["close"].inverse_transform(y_pred))
+        plt.plot(y_test[-100:], c='b')
+        plt.plot(y_pred[-100:], c='r')
         plt.xlabel("Days")
         plt.ylabel("Price")
         plt.legend(["Actual Price", "Predicted Price"])

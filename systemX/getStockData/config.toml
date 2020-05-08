@@ -8,11 +8,15 @@ SHARD_NUMBER = 1
 SHARD_ADDRESS=["127.0.0.1:3306"]
 SHARD_TYPE = ["mysql"]
 SHARD_NAME = ["stockdata"]
-SHARD_USER = ["root"]
-SHARD_PASSWORD = ["123"]
+SHARD_USER = ["tpp"]
+SHARD_PASSWORD = ["Tpp@123456"]
 DB_ARGS="charset=utf8&collation=utf8_general_ci&parseTime=true&loc=Asia%2FHo_Chi_Minh"
 DB_MAX_IDLE=2
 DB_MAX_OPEN=4
 
 #stock list
 STOCK_LIST = ["GOOG"]
+
+#startdate enddate
+START_DATE = "2010-01-01"
+END_DATE = "2020-01-01"
