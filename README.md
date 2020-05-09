@@ -8,8 +8,9 @@
 
 #### [II. Chi tiết đề tài](#chi-tiết-đề-tài-)
 
-
 #### [III. Tài liệu tham khảo](#tài-liệu-tham-khảo-)
+
+#### [IV. Benchmark hệ thống](#benchmark-hệ-thống-)
 
 ## Chi tiết đề tài : 
 
@@ -27,9 +28,32 @@ _ **Sinh viên thực hiện** :
 
 _ [**Các tài liệu khác**](https://drive.google.com/open?id=1bVA8XYJ_cDb9mNIbi9VGlNTvnni_0VFJ)
 
-## Chương trình chính :
+## Tổng quan hệ thống:
 
-### [1. Price_Generator](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/systemX/Price_Generator)
+### SystemX
+
+- Hệ thống bao gồm 3 components chính là:
+    + Data Crawler (getStockData)
+    + Price Generator
+    + Poral API
+
+- Dưới đây là hình ảnh tổng quan về sơ đồ  các components hệ thống tương tác:
+![SystemOverall](Picture/image.png)
+
+### Chi tiết về các thành phần :
+
+#### [1. Data Crawler & Portal](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/systemX)
+
+#### [2. Price Predictor](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/systemX/Price_Generator)
+
+
+### Benchmark hệ thống : 
+
+#### 2.1. Crawler performance:
++ Để ghi 3000 dòng record vào 1 shard, Crawler tốn khoảng thời gian giao động từ 11.6 - 13.4 giây (DBMS là mysql).
+
+#### 2.2. Training Data Performance: 
++
 
 ## Tài liệu tham khảo : 
 

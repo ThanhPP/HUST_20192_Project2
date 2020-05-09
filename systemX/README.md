@@ -1,18 +1,7 @@
-# SystemX
-
-## 1) System Overall:
-- Hệ thống bao gồm 3 components chính là:
-    + Data Crawler (getStockData)
-    + Price Generator
-    + Poral API
-
-- Dưới đây là hình ảnh tổng quan về sơ đồ  các components hệ thống tương tác:
-![SystemOverall](Picture/image.png)
-
-### 1.1) Data Crawler:
+### 1.1. Data Crawler:
 - Data cralwer (getStockData) chịu trách nhiệm crawl dữ liệu giá cổ phiếu từ Yahoo Finance về. Sau đó đẩy vào Big Data Cluster. Big Data Cluster bao gồm các Database Shards như hình sau:
 
-![ShardDatabase](Picture/sharding.png)
+    ![ShardDatabase](Picture/sharding.png)
 
 - Tại mỗi shard sẽ chứa giá của 1 tập cổ phiếu nhất định. Từ đó ta có thể train các neural network song song với nhau ở từng shard một. Từ đó tăng hiệu năng tính toán. Đồng thời cũng giải quyết bài toán về việc lượng dữ liệu là quá nhiều cho 1 database.
 
@@ -20,7 +9,7 @@
 
 - Data crawler được thiết kế theo design partern Abstraction Factory, nhờ đó việc thay đổi code hay áp dụng công nghệ mới cũng dễ dàng hơn. Cụ thể là việc mỗi shard có thể sử dụng một loại DBMS khác nhau. Hiện tại trong code chỉ support Mysql, nhưng ta nếu cần ta sẽ chỉ phải define thêm 1 interface khác cho các DBMS khác như hình sau.
 
-![DAO](Picture/DAO.png)
+    ![DAO](Picture/DAO.png)
 
 #### Ưu điểm:
 - Lượng data và work load được chia đều trên các shard. 
@@ -32,10 +21,9 @@
 - Việc implement concurrent computing cần được làm cẩn thận, ẩn chứa nhiều rủi ro.
 - Tốn tài nguyên hơn so với hướng tiếp cận thông thường. Phải chịu network comunication overhead khi thực hiện requests (tuy không đáng kể).
 
-### 1.2) Stock Price Predictor (Price_Generator):
-### 1.3) Portal:
+### 1.2. Portal:
 - Là component cuối cùng của hệ thống, chịu trách nhiệm xử lý request của người dùng và trả ra giá cổ phiếu được dự đoán. Dưới đây là tổng quan thiết kế của service này.
-![portal](Picture/portal.png)
+    ![portal](Picture/portal.png)
 
 Như trên hình, portal bao gồm các package sau: boot, core, controller, webserver, và DAO.
 
@@ -52,10 +40,4 @@ Sau khi đã được boot xong. 1 request từ hệ thống ngoài sẽ đượ
 
 Các package của portal cũng giống như của data crawler, được thiết kế theo design partern là Abstract Factory, từ đó tiện cho việc thay đổi code và thay đổi công nghệ.
 
-### 2) Benchmark hệ thống: 
-
-#### 2.1) Crawler performance:
-+ Để ghi 3000 dòng record vào 1 shard, Crawler tốn khoảng thời gian giao động từ 11.6 - 13.4 giây (DBMS là mysql).
-
-#### 2.2) Training Data Performance: 
 
