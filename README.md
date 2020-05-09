@@ -53,7 +53,19 @@ _ [**Các tài liệu khác**](https://drive.google.com/open?id=1bVA8XYJ_cDb9mNI
 + Để ghi 3000 dòng record vào 1 shard, Crawler tốn khoảng thời gian giao động từ 11.6 - 13.4 giây (DBMS là mysql).
 
 #### 2.2. Training Data Performance: 
-+
+
++ Cấu hình máy : Dell M4800 - Intel I7 - 4910MQ
+
++ Đối với [mô hình LSTM 2 lớp](https://github.com/ThanhPP/HUST_20192_Project2/tree/master/systemX/Price_Generator#2-m%C3%B4-h%C3%ACnh-lstm-2-l%E1%BB%9Bp--1)
+    - Thời gian trung bình hết khoảng 1 phút 20 giây cho 1 ticker.
+    - Settings :
+      - Thời gian lấy dữ liệu : 01/01/2010 - 01/01/2020
+      - BATCH_SIZE = 365
+      - EPOCHS = 10
+      - UNITS = 365
+      - CELL = LSTM
+      - N_LAYERS = 2
+      - DROPOUT = 0.3
 
 ## Tài liệu tham khảo : 
 

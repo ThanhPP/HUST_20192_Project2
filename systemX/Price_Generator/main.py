@@ -29,7 +29,7 @@ N_STEPS = 20
 TEST_SIZE = 0.1
 # flag
 # options : train, validate, predict, graph
-train_flag = "predict"
+train_flag = "train"
 
 # make dir to store data
 if not os.path.isdir("results"):
