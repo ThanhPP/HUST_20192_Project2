@@ -149,7 +149,7 @@ def load_data(ticker=TICKER, start=START, end=END, feature_columns=FEATURE_COLUM
     return result
 
 
-load_data("GOOG")
+# load_data("GOOG")
 
 """ OLD LOAD_DATA
 def load_data(ticker=TICKER, feature_columns=FEATURE_COLUMNS, lookup_steps=LOOKUP_STEPS, n_steps=N_STEPS,

@@ -15,11 +15,9 @@
 ### [3. Kết nối với cơ sở dữ liệu :](#3-kết-nối-với-cơ-sở-dữ-liệu-)
 
 ## TODO :
-- [ ] Đẩy data vào CSDL
-- [ ] Chọn model theo config
-- [ ] Tạo object config
-- [ ] Chọn function theo config
-- [ ] Get accuracy
+- [x] Đẩy data vào CSDL
+- [x] Chọn model theo config
+- [x] Get accuracy
 
 ## NỘI DUNG :
 
