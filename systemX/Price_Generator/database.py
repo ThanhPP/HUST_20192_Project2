@@ -2,6 +2,7 @@ import mysql.connector
 import pandas as pd
 from mysql.connector import Error
 import config
+import datetime
 
 
 def connect():
@@ -70,17 +71,18 @@ def check_ticker_db(ticker, connection):
 
 def push_predicted_to_db(input_ticker, input_price, input_mse, input_mae, input_accuracy):
     ticker = str(input_ticker)
-    price = str("%.3f" % input_price)
+    price = float("%12.6f" % input_price)
+    timestamp = datetime.datetime.now()
     mse = str("%.3f" % input_mse)
     mae = str("%.3f" % input_mae)
     accuracy = str("%.3f" % input_accuracy)
-    sql = "INSERT INTO `predicted` (ticker, predicted_price, mse, mae, accuracy) VALUES (%s, %s, %s, %s, %s);"
+    sql = "INSERT INTO `predicted` (ticker, price, timestamp,mse, mae, accuracy) VALUES (%s, %s, %s, %s, %s);"
     val = (str(ticker), str(price), str(mse), str(mae), str(accuracy))
     try:
         connection = connect()
         cursor = connection.cursor()
         cursor.execute('UPDATE `predicted`'
-                       ' SET `predicted_price`= "' + price + '",' +
+                       ' SET `price`= "' + price + '",' +
                        '`mse`= "' + mse + '",' +
                        '`mae`=  "' + mae + '",' +
                        '`accuracy` = "' + accuracy + '"' +
