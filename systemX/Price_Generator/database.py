@@ -72,10 +72,11 @@ def check_ticker_db(ticker, connection):
 def push_predicted_to_db(input_ticker, input_price, input_mse, input_mae, input_accuracy):
     ticker = str(input_ticker)
     price = str("%12.6f" % input_price)
-    timestamp = datetime.datetime.now()
+    timestamp = str(datetime.datetime.now())
     mse = str("%.3f" % input_mse)
     mae = str("%.3f" % input_mae)
     accuracy = str("%.3f" % input_accuracy)
+    """
     sql = "INSERT INTO `predicted` (ticker, price, timestamp,mse, mae, accuracy) VALUES (%s, %s, %s, %s, %s);"
     val = (str(ticker), str(price), timestamp, str(mse), str(mae), str(accuracy))
     try:
@@ -90,12 +91,13 @@ def push_predicted_to_db(input_ticker, input_price, input_mse, input_mae, input_
                        ' WHERE `ticker` LIKE "' + ticker + '";')
         connection.commit()
     except Error:
-        connection = connect()
-        cursor = connection.cursor()
-        sql = "INSERT INTO `predicted` (ticker, predicted_price, mse, mae, accuracy) VALUES (%s, %s, %s, %s, %s);"
-        val = (str(ticker),  str(price), str(mse), str(mae), str(accuracy))
-        cursor.execute(sql, val)
-        connection.commit()
+    """
+    connection = connect()
+    cursor = connection.cursor()
+    sql = "INSERT INTO `predicted` (ticker, price, timestamp,mse, mae, accuracy) VALUES (%s, %s, %s,%s, %s, %s);"
+    val = (str(ticker), str(price), str(timestamp), str(mse), str(mae), str(accuracy))
+    cursor.execute(sql, val)
+    connection.commit()
     # close_connection(connection)
 
 

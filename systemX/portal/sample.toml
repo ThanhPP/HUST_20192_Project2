@@ -7,8 +7,8 @@ JWT_EXPIRE_TIME=1440
 SHARD_ADDRESS="127.0.0.1:3306"
 SHARD_TYPE = "mysql"
 SHARD_NAME = "stockdata"
-SHARD_USER = "root"
-SHARD_PASSWORD = "123"
+SHARD_USER = "tpp"
+SHARD_PASSWORD = "Tpp@123456"
 DB_ARGS="charset=utf8&collation=utf8_general_ci&parseTime=true&loc=Asia%2FHo_Chi_Minh"
 DB_MAX_IDLE=2
 DB_MAX_OPEN=4

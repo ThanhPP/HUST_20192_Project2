@@ -15,7 +15,7 @@ DB_MAX_IDLE=2
 DB_MAX_OPEN=4
 
 #stock list
-STOCK_LIST = ["GOOG"]
+STOCK_LIST = ["GOOG", "FSLY", "TBIO", "INO", "AAPL", "CBL", "PLUG", "MSFT", "BRN", "LK", "FFHL", "LLEX", "SPR", "WKHS", "SNY", "KIRK", "SONO", "SNSS", "FRSX", "PTN", "DLOC", "NNDM", "PENN", "HEPA", "BOX", "SNYNF", "MARA", "STIM", "APYX", "CRSP", "CJJD"]
 
 #startdate enddate
 START_DATE = "2010-01-01"

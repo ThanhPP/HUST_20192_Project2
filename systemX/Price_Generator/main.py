@@ -50,6 +50,7 @@ def main():
     BATCH_SIZE = int(trainingConfig.batch_size)
     EPOCHS = int(trainingConfig.epochs)
     stock_list = db.get_stock_list()
+    print(stock_list)
     for i in range(len(stock_list)):
         ticker = stock_list[i]
         print(ticker)

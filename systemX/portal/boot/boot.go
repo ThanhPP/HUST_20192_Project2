@@ -92,7 +92,7 @@ func bootstrapDaemons(extTerm <-chan os.Signal, testMode bool) (err error) {
 	// os signal handling
 	sigs := make(chan os.Signal, 10)
 	done := make(chan os.Signal, 10)
-	signal.Notify(sigs, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGKILL, syscall.SIGTERM, syscall.SIGSTOP, syscall.SIGTSTP)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGKILL, syscall.SIGTERM)
 
 	// waiter all daemons
 	var wg sync.WaitGroup
