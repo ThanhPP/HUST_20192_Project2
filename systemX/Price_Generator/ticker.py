@@ -29,7 +29,7 @@ def check_features_col(df, feature_columns=FEATURE_COLUMNS):
 
 
 def get_stock_data_from_Yahoo(ticker=TICKER, start=START, end=END):
-    print(f"crawling data of {ticker} from {start} to {end}")
+    print("crawling data of {ticker} from {start} to {end}")
     ticker_data_file_name = "ticker_data/" + ticker + "-" + str(START.date()) + "-" + str(END.date()) + ".csv"
 
     df = pdr.get_data_yahoo(str(ticker),
@@ -46,7 +46,7 @@ def get_stock_data_from_Yahoo(ticker=TICKER, start=START, end=END):
 
 def get_stock_data_from_file(ticker=TICKER, start=START, end=END):
     ticker_data_file_name = "ticker_data/" + ticker + "-" + str(start.date()) + "-" + str(end.date()) + ".csv"
-    print(f"Read from file : {ticker_data_file_name}")
+    print("Read from file : {ticker_data_file_name}")
 
     if os.path.isfile(ticker_data_file_name):
         print("File exist -> reading")
@@ -56,7 +56,7 @@ def get_stock_data_from_file(ticker=TICKER, start=START, end=END):
 
         return df
 
-    print(f"{ticker_data_file_name} not exist")
+    print("{ticker_data_file_name} not exist")
     return pd.DataFrame()
 
 

@@ -46,7 +46,7 @@ func getPredictedPriceByTickets(c echo.Context, request interface{}) (statusCode
 	db := core.GetDB()
 	sDAO := dao.GetStockDAO()
 
-	var resp []*model.StockPredicted
+	var resp [][]*model.StockPredicted
 	for i := 0; i < len(req.Names); i++ {
 		res, err := sDAO.GetPriceByTicker(ctx, db, req.Names[i], req.From, req.To)
 		if err != nil {
