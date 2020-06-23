@@ -17,14 +17,14 @@ def connect():
         )
         return connection
     except Error as error:
-        print(f"Failed to create connection to db : {error}")
+        print("Failed to create connection to db : {error}")
         return
 
 
 def close_connection(connection):
     if connection.is_connected():
         connection.close()
-        print(f"Connection closed")
+        print("Connection closed")
         return
 
     print("Connection is not connected")

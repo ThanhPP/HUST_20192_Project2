@@ -161,7 +161,7 @@ type ManyTicketsRequest struct {
 
 //--------------------------------------------------- DB obj ----------------------------------------------------
 type StockPredicted struct {
-	Name      string  `json:"name" db:"name"`
+	Ticker    string  `json:"ticker" db:"ticker"`
 	Price     float32 `json:"price" db:"price"`
 	Timestamp string  `json:"timestamp" db:"timestamp"`
 }

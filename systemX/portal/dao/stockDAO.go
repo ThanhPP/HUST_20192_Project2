@@ -8,13 +8,13 @@ import (
 )
 
 const (
-	GetAllPriceQuery      = "select *from ticker"
-	GetPriceByTickerQuery = "select *from ticker where name = ?"
+	GetAllPriceQuery      = "select ticker, price, timestamp from predicted where (timestamp >= ?) and (timestamp <= ?)"
+	GetPriceByTickerQuery = "select ticker, price, timestamp from predicted where (ticker = ?) and (timestamp >= ?) and (timestamp <= ?)"
 )
 
 type IstockDAO interface {
 	GetAllPrice(ctx context.Context, db *sql.DB, start, end string) (priceList []*model.StockPredicted, err error)
-	GetPriceByTicker(ctx context.Context, db *sql.DB, ticker, start, end string) (price *model.StockPredicted, err error)
+	GetPriceByTicker(ctx context.Context, db *sql.DB, ticker, start, end string) (priceList []*model.StockPredicted, err error)
 	//	GetPriceByTickers(ctx context.Context, db *sql.DB, ticker []string, start, end string) (priceList []*model.StockPredicted, err error)
 }
 
@@ -25,18 +25,18 @@ func (s *stockDAO) GetAllPrice(ctx context.Context, db *sql.DB, start, end strin
 		return nil, core.ErrDBObjNull
 	}
 
-	rows, err := db.QueryContext(ctx, GetAllPriceQuery)
+	rows, err := db.QueryContext(ctx, GetAllPriceQuery, start, end)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var tg = &model.StockPredicted{}
-		err := rows.Scan(tg.Name, tg.Price, tg.Timestamp)
+		var tg = model.StockPredicted{}
+		err := rows.Scan(&tg.Ticker, &tg.Price, &tg.Timestamp)
 		if err != nil {
 			return nil, err
 		}
-		priceList = append(priceList, tg)
+		priceList = append(priceList, &tg)
 	}
 
 	err = rows.Err()
@@ -46,16 +46,30 @@ func (s *stockDAO) GetAllPrice(ctx context.Context, db *sql.DB, start, end strin
 	return
 }
 
-func (s *stockDAO) GetPriceByTicker(ctx context.Context, db *sql.DB, ticket, start, end string) (price *model.StockPredicted, err error) {
+func (s *stockDAO) GetPriceByTicker(ctx context.Context, db *sql.DB, ticker, start, end string) (priceList []*model.StockPredicted, err error) {
 	if db == nil {
 		return nil, core.ErrDBObjNull
 	}
 
-	row := db.QueryRowContext(ctx, GetPriceByTickerQuery, ticket)
-	err = row.Scan(price)
+	rows, err := db.QueryContext(ctx, GetPriceByTickerQuery, ticker, start, end)
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
+	for rows.Next() {
+		var tg = model.StockPredicted{}
+		err := rows.Scan(&tg.Ticker, &tg.Price, &tg.Timestamp)
+		if err != nil {
+			return nil, err
+		}
+		priceList = append(priceList, &tg)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+
 	return
 }
 
